@@ -3,20 +3,10 @@
 import { useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import type { Map } from "leaflet";
+import revenueByLocationData from "../data/revenue-by-location";
 
 // Revenue data for different locations
-const revenueData = [
-  { name: "New York", revenue: "72K", value: 72, lat: 40.7128, lng: -74.006 },
-  {
-    name: "San Francisco",
-    revenue: "39K",
-    value: 39,
-    lat: 37.7749,
-    lng: -122.4194,
-  },
-  { name: "Sydney", revenue: "25K", value: 25, lat: -33.8688, lng: 151.2093 },
-  { name: "Singapore", revenue: "61K", value: 61, lat: 1.3521, lng: 103.8198 },
-];
+const revenueData = revenueByLocationData;
 
 export default function RevenueByLocation() {
   const mapRef = useRef<HTMLDivElement>(null);

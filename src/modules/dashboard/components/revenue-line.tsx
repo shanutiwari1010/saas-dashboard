@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Area,
@@ -9,59 +9,66 @@ import {
   Tooltip as RechartsTooltip,
   XAxis,
   YAxis,
-} from "recharts"
+} from "recharts";
+import revenueLineBase from "../data/revenue-line";
 
 type Point = {
-  month: string
-  previous: number
-  current: number
-  currentSolid: number | null
-  currentForecast: number | null
-}
+  month: string;
+  previous: number;
+  current: number;
+  currentSolid: number | null;
+  currentForecast: number | null;
+};
 
 // Source-like demo data (units in millions)
-const base: Array<Omit<Point, "currentSolid" | "currentForecast">> = [
-  { month: "Jan", previous: 7, current: 12 },
-  { month: "Feb", previous: 16, current: 9 },
-  { month: "Mar", previous: 15, current: 8 },
-  { month: "Apr", previous: 11, current: 12 },
-  { month: "May", previous: 12, current: 18 },
-  { month: "Jun", previous: 24, current: 19 },
-]
+const base: Array<Omit<Point, "currentSolid" | "currentForecast">> =
+  revenueLineBase;
 
 // Split "current" into solid (through Apr) and dotted forecast (May–Jun)
 const data: Point[] = base.map((d, i) => ({
   ...d,
   currentSolid: i <= 3 ? d.current : null,
   currentForecast: i >= 4 ? d.current : null,
-}))
+}));
 
 // Color system (4 total):
 // 1) Blue for previous week, 2) Black for current week, 3) Grid gray, 4) Background from theme
-const BLUE = "#9BB9D4"
-const BLACK = "#111827"
-const GRID = "#E5E7EB"
+const BLUE = "#9BB9D4";
+const BLACK = "#111827";
+const GRID = "#E5E7EB";
 
-const formatMillions = (v: number) => `${v}M`
+const formatMillions = (v: number) => `${v}M`;
 
 export default function RevenueLineChart() {
   return (
-    <section className="w-full rounded-2xl bg-muted p-6 md:p-8">
+    <section className="bg-muted w-full rounded-2xl p-6 md:p-8">
       {/* Header + Legend */}
       <div className="mb-4 flex flex-wrap items-center gap-4">
-        <h2 className="text-lg font-semibold leading-6 text-foreground">Revenue</h2>
-        <div className="h-5 w-px bg-border" aria-hidden />
-        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+        <h2 className="text-foreground text-lg leading-6 font-semibold">
+          Revenue
+        </h2>
+        <div className="bg-border h-5 w-px" aria-hidden />
+        <div className="text-muted-foreground flex items-center gap-6 text-sm">
           <div className="flex items-center gap-2">
-            <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: BLACK }} aria-hidden />
+            <span
+              className="inline-block h-2.5 w-2.5 rounded-full"
+              style={{ backgroundColor: BLACK }}
+              aria-hidden
+            />
             <span>
-              Current Week <span className="font-semibold text-foreground">$58,211</span>
+              Current Week{" "}
+              <span className="text-foreground font-semibold">$58,211</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: BLUE }} aria-hidden />
+            <span
+              className="inline-block h-2.5 w-2.5 rounded-full"
+              style={{ backgroundColor: BLUE }}
+              aria-hidden
+            />
             <span>
-              Previous Week <span className="font-semibold text-foreground">$68,768</span>
+              Previous Week{" "}
+              <span className="text-foreground font-semibold">$68,768</span>
             </span>
           </div>
         </div>
@@ -70,7 +77,10 @@ export default function RevenueLineChart() {
       {/* Chart */}
       <div className="h-[320px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: 8 }}>
+          <AreaChart
+            data={data}
+            margin={{ top: 8, right: 8, bottom: 0, left: 8 }}
+          >
             <defs>
               {/* Subtle blue area fill */}
               <linearGradient id="rev-blue-fill" x1="0" y1="0" x2="0" y2="1">
@@ -80,7 +90,12 @@ export default function RevenueLineChart() {
             </defs>
 
             <CartesianGrid stroke={GRID} vertical={false} />
-            <XAxis dataKey="month" tickLine={false} axisLine={{ stroke: GRID }} tickMargin={8} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={{ stroke: GRID }}
+              tickMargin={8}
+            />
             <YAxis
               domain={[0, 30]}
               ticks={[0, 10, 20, 30]}
@@ -129,5 +144,5 @@ export default function RevenueLineChart() {
         </ResponsiveContainer>
       </div>
     </section>
-  )
+  );
 }

@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import projectionsVsActualsRaw from "../data/projections-vs-actuals";
 
 type Item = {
   month: string;
@@ -17,14 +18,7 @@ type Item = {
   projectedGap: number;
 };
 
-const raw = [
-  { month: "Jan", actual: 17, projected: 20 },
-  { month: "Feb", actual: 20, projected: 25 },
-  { month: "Mar", actual: 17, projected: 21 },
-  { month: "Apr", actual: 21, projected: 26 },
-  { month: "May", actual: 14, projected: 17 },
-  { month: "Jun", actual: 20, projected: 24 },
-];
+const raw = projectionsVsActualsRaw;
 
 const data: Item[] = raw.map((d) => ({
   ...d,
@@ -90,14 +84,14 @@ function CustomTooltip({
 
 export function ProjectionsVsActualsChart() {
   return (
-    <div className="rounded-2xl bg-gray-50 flex h-[15.75rem]  min-w-[25rem]  flex-col items-start  flex-1">
+    <div className="flex h-[15.75rem] min-w-[25rem] flex-1 flex-col items-start rounded-2xl bg-gray-50">
       <h2
-        className="text-[#1C1C1C] font-semibold text-sm leading-5 ml-6 mt-6"
+        className="mt-6 ml-6 text-sm leading-5 font-semibold text-[#1C1C1C]"
         style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
       >
         Projections vs Actuals
       </h2>
-      <div className="mt-6  h-[15.75rem] w-full">
+      <div className="mt-6 h-[15.75rem] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} barCategoryGap={32}>
             <CartesianGrid
@@ -105,20 +99,20 @@ export function ProjectionsVsActualsChart() {
               stroke={COLORS.grid}
               strokeDasharray="0"
             />
-                         <XAxis
-               dataKey="month"
-               axisLine={false}
-               tickLine={false}
-               tickMargin={8}
-               tick={{ 
-                 fill: "rgba(28, 28, 28, 0.40)", 
-                 fontSize: 12, 
-                 fontFamily: "Inter",
-                 fontWeight: 400,
-                 textAnchor: "middle"
-               }}
-               style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
-             />
+            <XAxis
+              dataKey="month"
+              axisLine={false}
+              tickLine={false}
+              tickMargin={8}
+              tick={{
+                fill: "rgba(28, 28, 28, 0.40)",
+                fontSize: 12,
+                fontFamily: "Inter",
+                fontWeight: 400,
+                textAnchor: "middle",
+              }}
+              style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
+            />
             <YAxis
               domain={[0, 30]}
               ticks={[0, 10, 20, 30]}
@@ -126,12 +120,12 @@ export function ProjectionsVsActualsChart() {
               tickLine={false}
               tickMargin={8}
               tickFormatter={formatMillionsTick}
-              tick={{ 
-                fill: "rgba(28, 28, 28, 0.40)", 
-                fontSize: 12, 
+              tick={{
+                fill: "rgba(28, 28, 28, 0.40)",
+                fontSize: 12,
                 fontFamily: "Inter",
                 fontWeight: 400,
-                textAnchor: "middle"
+                textAnchor: "middle",
               }}
               style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
             />
