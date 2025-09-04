@@ -14,6 +14,11 @@ import {
 } from "@/components/ui/sidebar";
 import { SidebarLeftPanel } from "./components/sidebar/sidebar-left-panel";
 
+import { SectionCards } from "./modules/dashboard/components/section-cards";
+import {ProjectionsVsActualsChart} from "./modules/dashboard/components/projections-vs-actuals";
+import RevenueLineChart from "./modules/dashboard/components/revenue-line";
+import RevenueByLocation from "./modules/dashboard/components/revenue-by-location";
+
 export default function Page() {
   return (
     <SidebarProvider>
@@ -41,13 +46,19 @@ export default function Page() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
-            <div className="bg-muted/50 aspect-video rounded-xl" />
+        <div className="flex flex-col gap-4 p-4 pt-0 ">
+          <h1
+            className="text-[#1C1C1C] font-semibold text-sm leading-5 "
+            style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
+          >
+            eCommerce
+          </h1>
+          <div className="flex flex-wrap gap-4 ">
+            <SectionCards />
+            <ProjectionsVsActualsChart />
+            <RevenueLineChart />
+            <RevenueByLocation/>
           </div>
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
         </div>
       </SidebarInset>
     </SidebarProvider>
