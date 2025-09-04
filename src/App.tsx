@@ -18,6 +18,7 @@ import { SectionCards } from "./modules/dashboard/components/section-cards";
 import {ProjectionsVsActualsChart} from "./modules/dashboard/components/projections-vs-actuals";
 import RevenueLineChart from "./modules/dashboard/components/revenue-line";
 import RevenueByLocation from "./modules/dashboard/components/revenue-by-location";
+import TopSellingProducts from "./modules/dashboard/components/top-selling-products";
 
 export default function Page() {
   return (
@@ -58,6 +59,7 @@ export default function Page() {
             <ProjectionsVsActualsChart />
             <RevenueLineChart />
             <RevenueByLocation/>
+            <TopSellingProducts/>
           </div>
         </div>
       </SidebarInset>
