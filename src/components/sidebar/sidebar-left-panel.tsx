@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { NavDashboard } from "@/components/sidebar/nav-dashboard";
 import { NavPages } from "@/components/sidebar/nav-pages";
@@ -14,6 +12,17 @@ import { NavFavorites } from "@/components/sidebar/nav-favorites";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import {
+  Folder,
+  Notebook,
+  BookOpen,
+  UsersThree,
+  ChartPieSlice,
+  ChatsTeardrop,
+  IdentificationBadge,
+  IdentificationCard,
+  ShoppingCartSimple,
+} from "phosphor-react";
 
 const data = {
   user: {
@@ -24,30 +33,30 @@ const data = {
     {
       title: "Default",
       url: "/dashboard",
-      icon: "/icons/pie-chart.svg",
+      icon: ChartPieSlice,
       isActive: true,
     },
     {
       title: "eCommerce",
       url: "#",
-      icon: "/icons/ecommerce.svg",
+      icon: ShoppingCartSimple,
     },
     {
       title: "Projects",
       url: "#",
-      icon: "/icons/projects.svg",
+      icon: Folder,
     },
     {
       title: "Online Courses",
       url: "#",
-      icon: "/icons/online-courses.svg",
+      icon: BookOpen,
     },
   ],
   pages: [
     {
       title: "User Profile",
       url: "#",
-      icon: "/icons/user-profile.svg",
+      icon: IdentificationBadge,
       items: [
         {
           title: "Overview",
@@ -74,22 +83,22 @@ const data = {
     {
       title: "Account",
       url: "#",
-      icon: "/icons/account.svg",
+      icon: IdentificationCard,
     },
     {
       title: "Corporate",
       url: "#",
-      icon: "/icons/corporate.svg",
+      icon: UsersThree,
     },
     {
       title: "Blog",
       url: "#",
-      icon: "/icons/blog.svg",
+      icon: Notebook,
     },
     {
       title: "Social",
       url: "#",
-      icon: "/icons/social.svg",
+      icon: ChatsTeardrop,
     },
   ],
   favorites: [
@@ -123,12 +132,12 @@ export function SidebarLeftPanel({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader
-        className={cn(isVisible ? "md:p-5 md:pb-4" : "items-center")}
+        className={cn(isVisible ? "md:p-4 md:pt-5" : "items-center")}
       >
         <div
           className={cn(
             "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex cursor-pointer flex-wrap items-center gap-2 rounded-md",
-            isVisible ? "p-2" : "rounded-full p-0"
+            isVisible ? "p-1" : "rounded-full p-0"
           )}
         >
           <Tooltip>
