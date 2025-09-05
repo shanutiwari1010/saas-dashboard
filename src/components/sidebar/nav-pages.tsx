@@ -17,12 +17,14 @@ import {
   SidebarMenuSubItem,
   SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import type { IconProps } from "phosphor-react";
 
 interface NavPagesProps {
   items: Array<{
     title: string;
     url: string;
-    icon: string;
+    icon: React.ForwardRefExoticComponent<IconProps>;
     items?: Array<{ title: string; url: string }>;
   }>;
   isMobile?: boolean;
@@ -33,30 +35,23 @@ const NavPages: React.FunctionComponent<NavPagesProps> = ({
   isMobile,
 }) => {
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Pages</SidebarGroupLabel>
+    <SidebarGroup className={cn(isMobile && "px-4 pt-0 pb-3")}>
+      <SidebarGroupLabel className="px-3 py-1 text-sm font-normal">
+        Pages
+      </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            // defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
+          <Collapsible key={item.title} asChild className="group/collapsible">
+            <SidebarMenuItem className="text-sm font-normal">
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton
                   tooltip={item.title}
-                  className="relative overflow-hidden"
+                  className={cn(isMobile && "py-1", "relative overflow-hidden")}
                 >
                   {isMobile && (
-                    <ChevronRight className="ml-1 text-black/20 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    <ChevronRight className="ml-1 text-black/20 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 dark:text-gray-500" />
                   )}
-                  <img
-                    src={item.icon}
-                    alt={item.title}
-                    aria-label="Brand Logo"
-                  />
+                  <item.icon size={20} weight="duotone" />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
               </CollapsibleTrigger>
