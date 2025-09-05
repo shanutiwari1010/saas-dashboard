@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ResponsiveContainer,
   BarChart,
@@ -84,73 +82,71 @@ function CustomTooltip({
 
 export function ProjectionsVsActualsChart() {
   return (
-    <div className="flex h-[15.75rem] min-w-[25rem] flex-1 flex-col items-start rounded-2xl bg-gray-50">
-      <h2
-        className="mt-6 ml-6 text-sm leading-5 font-semibold text-[#1C1C1C]"
-        style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
-      >
+    <div className="flex h-64 flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
+      <h2 className="text-sm leading-5 font-semibold text-black dark:text-white">
         Projections vs Actuals
       </h2>
-      <div className="mt-6 h-[15.75rem] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} barCategoryGap={32}>
-            <CartesianGrid
-              vertical={false}
-              stroke={COLORS.grid}
-              strokeDasharray="0"
-            />
-            <XAxis
-              dataKey="month"
-              axisLine={false}
-              tickLine={false}
-              tickMargin={8}
-              tick={{
-                fill: "rgba(28, 28, 28, 0.40)",
-                fontSize: 12,
-                fontFamily: "Inter",
-                fontWeight: 400,
-                textAnchor: "middle",
-              }}
-              style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
-            />
-            <YAxis
-              domain={[0, 30]}
-              ticks={[0, 10, 20, 30]}
-              axisLine={false}
-              tickLine={false}
-              tickMargin={8}
-              tickFormatter={formatMillionsTick}
-              tick={{
-                fill: "rgba(28, 28, 28, 0.40)",
-                fontSize: 12,
-                fontFamily: "Inter",
-                fontWeight: 400,
-                textAnchor: "middle",
-              }}
-              style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
-            />
-            <Tooltip
-              content={<CustomTooltip />}
-              cursor={{ fill: "transparent" }}
-            />
-            <Bar
-              dataKey="actual"
-              stackId="a"
-              fill={COLORS.actual}
-              radius={[0, 0, 0, 0]}
-              barSize={20}
-            />
-            <Bar
-              dataKey="projectedGap"
-              stackId="a"
-              fill={COLORS.projectedGap}
-              radius={[4, 4, 0, 0]}
-              barSize={20}
-              fillOpacity={0.5}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+        className="relative -left-1"
+      >
+        <BarChart data={data} barCategoryGap={32} margin={{ left: -30 }}>
+          <CartesianGrid
+            vertical={false}
+            stroke={COLORS.grid}
+            strokeDasharray="0"
+          />
+          <XAxis
+            dataKey="month"
+            axisLine={false}
+            tickLine={false}
+            tickMargin={8}
+            tick={{
+              fill: "rgba(28, 28, 28, 0.40)",
+              fontSize: 12,
+              fontFamily: "Inter",
+              fontWeight: 400,
+              textAnchor: "middle",
+            }}
+          />
+          <YAxis
+            domain={[0, 30]}
+            ticks={[0, 10, 20, 30]}
+            axisLine={false}
+            tickLine={false}
+            tickMargin={8}
+            tickFormatter={formatMillionsTick}
+            tick={{
+              fill: "rgba(28, 28, 28, 0.40)",
+              fontSize: 12,
+              fontFamily: "Inter",
+              fontWeight: 400,
+              textAnchor: "middle",
+            }}
+          />
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={{ fill: "transparent" }}
+          />
+          <Bar
+            dataKey="actual"
+            stackId="a"
+            fill={COLORS.actual}
+            radius={[0, 0, 0, 0]}
+            barSize={20}
+          />
+          <Bar
+            dataKey="projectedGap"
+            stackId="a"
+            fill={COLORS.projectedGap}
+            radius={[4, 4, 0, 0]}
+            barSize={20}
+            fillOpacity={0.5}
+          />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
