@@ -1,4 +1,4 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
+import { TrendDown, TrendUp } from "phosphor-react";
 import { dashboardMetrics } from "../data/dashboard-metrics";
 
 import {
@@ -11,13 +11,13 @@ import {
 const getCardBackgroundColor = (metricId: string) => {
   switch (metricId) {
     case "customers":
-      return "bg-sky-100 ";
+      return "bg-card-customers hover:ring-[var(--color-card-customers)]";
     case "orders":
-      return "bg-slate-50 ";
+      return "bg-card-orders hover:ring-[var(--color-card-orders)]";
     case "revenue":
-      return "bg-slate-50";
+      return "bg-card-revenue hover:ring-[var(--color-card-revenue)]";
     case "growth":
-      return "bg-[#E5ECF6]";
+      return "bg-card-growth hover:ring-[var(--color-card-growth)]";
     default:
       return "bg-gray-50 dark:bg-gray-950/20 border-gray-200 dark:border-gray-800";
   }
@@ -25,49 +25,31 @@ const getCardBackgroundColor = (metricId: string) => {
 
 export function SectionCards() {
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-2 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs">
+    <div className="flex flex-wrap gap-7 md:grid md:grid-cols-2">
       {dashboardMetrics.map((metric) => (
         <Card
           key={metric.id}
-          className={`@container/card  flex min-w-[12.5rem]   flex-col items-start gap-2 flex-1 ${getCardBackgroundColor(
-            metric.id
-          )}`}
+          className={`h-fit w-full rounded-2xl border-none shadow-none transition-all duration-300 ease-in hover:cursor-pointer hover:shadow-inner hover:ring-4 ${getCardBackgroundColor(metric.id)}`}
         >
-          <CardHeader>
-            <CardDescription
-              className="text-neutral-900 font-semibold text-sm leading-5"
-              style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
-            >
+          <CardHeader className="gap-2 text-black">
+            <CardTitle className="text-sm leading-5 font-semibold">
               {metric.title}
-            </CardDescription>
-            <div className="flex items-center gap-2 justify-between w-full">
-              <CardTitle
-                className=" font-semibold text-2xl leading-9 tabular-nums @[250px]/card:text-3xl"
-                style={{
-                  fontFamily: "Inter",
-                  fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on",
-                }}
-              >
-                {metric.value}
-              </CardTitle>
+            </CardTitle>
+
+            <CardDescription className="flex w-full items-center justify-between gap-2 text-black">
+              <p className="text-2xl font-semibold">{metric.value}</p>
               <div className="flex items-center gap-2">
-                <span
-                  className=" font-normal text-neutral-900 text-xs leading-[1.125rem]"
-                  style={{
-                    fontFamily: "Inter",
-                    fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on",
-                  }}
-                >
+                <span className="text-xs leading-[1.125rem] font-normal">
                   {metric.changeType === "increase" ? "+" : "-"}
                   {metric.change}%
                 </span>
                 {metric.changeType === "increase" ? (
-                  <IconTrendingUp className="h-4 w-4" />
+                  <TrendUp className="h-4 w-4" />
                 ) : (
-                  <IconTrendingDown className="h-4 w-4 " />
+                  <TrendDown className="h-4 w-4" />
                 )}
               </div>
-            </div>
+            </CardDescription>
           </CardHeader>
         </Card>
       ))}
