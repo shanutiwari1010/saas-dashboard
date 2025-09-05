@@ -1,14 +1,13 @@
 "use client";
 
 import {
-  Area,
-  AreaChart,
   CartesianGrid,
-  Line,
-  ResponsiveContainer,
   Tooltip as RechartsTooltip,
   XAxis,
   YAxis,
+  LineChart,
+  ResponsiveContainer,
+  Line,
 } from "recharts";
 import revenueLineBase from "../data/revenue-line";
 
@@ -24,11 +23,11 @@ type Point = {
 const base: Array<Omit<Point, "currentSolid" | "currentForecast">> =
   revenueLineBase;
 
-// Split "current" into solid (through Apr) and dotted forecast (May–Jun)
+// Split "current" into solid (Jan–Apr) and dotted forecast (Apr–Jun)
 const data: Point[] = base.map((d, i) => ({
   ...d,
   currentSolid: i <= 3 ? d.current : null,
-  currentForecast: i >= 4 ? d.current : null,
+  currentForecast: i >= 3 ? d.current : null,
 }));
 
 // Color system (4 total):
@@ -41,10 +40,10 @@ const formatMillions = (v: number) => `${v}M`;
 
 export default function RevenueLineChart() {
   return (
-    <section className="bg-muted w-full rounded-2xl p-6 md:p-8">
+    <section className="flex h-[19.875rem] flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
       {/* Header + Legend */}
-      <div className="mb-4 flex flex-wrap items-center gap-4">
-        <h2 className="text-foreground text-lg leading-6 font-semibold">
+      <div className="flex flex-wrap items-center gap-4">
+        <h2 className="text-sm leading-5 font-semibold text-black dark:text-white">
           Revenue
         </h2>
         <div className="bg-border h-5 w-px" aria-hidden />
@@ -75,74 +74,90 @@ export default function RevenueLineChart() {
       </div>
 
       {/* Chart */}
-      <div className="h-[320px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={data}
-            margin={{ top: 8, right: 8, bottom: 0, left: 8 }}
-          >
-            <defs>
-              {/* Subtle blue area fill */}
-              <linearGradient id="rev-blue-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={BLUE} stopOpacity={0.28} />
-                <stop offset="100%" stopColor={BLUE} stopOpacity={0.04} />
-              </linearGradient>
-            </defs>
+      <ResponsiveContainer
+        width="100%"
+        height="100%"
+        // className="relative -left-3.5"
+      >
+        <LineChart
+          data={data}
+          margin={{ top: 0, right: 24, bottom: 0, left: -20 }}
+        >
+          <defs>
+            {/* Subtle blue area fill  */}
+            <linearGradient id="rev-blue-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={BLUE} stopOpacity={0.28} />
+              <stop offset="100%" stopColor={BLUE} stopOpacity={0.04} />
+            </linearGradient>
+          </defs>
 
-            <CartesianGrid stroke={GRID} vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={{ stroke: GRID }}
-              tickMargin={8}
-            />
-            <YAxis
-              domain={[0, 30]}
-              ticks={[0, 10, 20, 30]}
-              tickFormatter={formatMillions}
-              tickLine={false}
-              axisLine={{ stroke: GRID }}
-              width={40}
-            />
-            <RechartsTooltip
-              cursor={{ stroke: GRID }}
-              formatter={(value: number, name: string) => [`${value}M`, name]}
-            />
+          <CartesianGrid stroke={GRID} vertical={false} strokeDasharray="3 0" />
+          <XAxis
+            dataKey="month"
+            tickLine={false}
+            axisLine={{ stroke: GRID }}
+            tickMargin={8}
+            tick={{
+              fill: "rgba(28, 28, 28, 0.40)",
+              fontSize: 12,
+              fontFamily: "Inter",
+              fontWeight: 400,
+              textAnchor: "middle",
+            }}
+          />
+          <YAxis
+            domain={[0, 30]}
+            ticks={[0, 10, 20, 30]}
+            tickFormatter={formatMillions}
+            tickLine={false}
+            axisLine={false}
+            tick={{
+              dy: -4,
+              dx: -20,
+              fill: "rgba(28, 28, 28, 0.40)",
+              fontSize: 12,
+              fontFamily: "Inter",
+              fontWeight: 400,
+              textAnchor: "middle",
+            }}
+          />
+          <RechartsTooltip
+            cursor={{ stroke: GRID }}
+            formatter={(value: number, name: string) => [`${value}M`, name]}
+          />
 
-            {/* Previous Week (blue area + line) */}
-            <Area
-              type="monotone"
-              dataKey="previous"
-              stroke={BLUE}
-              strokeWidth={3}
-              fill="url(#rev-blue-fill)"
-              dot={false}
-              activeDot={false}
-            />
+          <Line
+            type="natural"
+            dataKey="previous"
+            stroke="#A8C5DA"
+            strokeWidth={3}
+            dot={false}
+            name="Previous Week"
+          />
 
-            {/* Current Week solid (Jan–Apr) */}
-            <Line
-              type="monotone"
-              dataKey="currentSolid"
-              stroke={BLACK}
-              strokeWidth={3.5}
-              dot={false}
-              isAnimationActive={false}
-            />
+          {/* Current Week solid (Jan–Apr) */}
+          <Line
+            type="monotone"
+            dataKey="currentSolid"
+            stroke={BLACK}
+            strokeWidth={3.5}
+            dot={false}
+            isAnimationActive={false}
+          />
 
-            {/* Current Week dotted forecast (May–Jun) */}
-            <Line
-              type="monotone"
-              dataKey="currentForecast"
-              stroke={BLACK}
-              strokeDasharray="4 6"
-              strokeWidth={3.5}
-              dot={false}
-              isAnimationActive={false}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+          {/* Current Week dotted forecast (Apr–Jun) */}
+          <Line
+            type="monotone"
+            dataKey="currentForecast"
+            stroke={BLACK}
+            strokeDasharray="6 10"
+            strokeWidth={3.5}
+            dot={false}
+            strokeLinecap="round"
+            isAnimationActive={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </section>
   );
 }
