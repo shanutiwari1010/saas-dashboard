@@ -15,12 +15,14 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import type { IconProps } from "phosphor-react";
 
 interface NavDashboardProps {
   items: Array<{
     title: string;
     url: string;
-    icon: string;
+    icon: React.ForwardRefExoticComponent<IconProps>;
     items?: Array<{ title: string; url: string }>;
   }>;
   isMobile?: boolean;
@@ -31,23 +33,23 @@ const NavDashboard: React.FunctionComponent<NavDashboardProps> = ({
   isMobile,
 }) => {
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Dashboards</SidebarGroupLabel>
+    <SidebarGroup className={cn(isMobile && "px-4 pt-0 pb-3")}>
+      <SidebarGroupLabel className="px-3 py-1 text-sm font-normal">
+        Dashboards
+      </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            // defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
+          <Collapsible key={item.title} asChild className="group/collapsible">
+            <SidebarMenuItem className="text-sm font-normal">
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  className={cn(isMobile && "py-1")}
+                >
                   {isMobile && (
-                    <ChevronRight className="text-black/20 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    <ChevronRight className="text-black/20 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 dark:text-gray-500" />
                   )}
-                  <img src={item.icon} alt={item.title} />
+                  <item.icon size={20} weight="duotone" />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
               </CollapsibleTrigger>
