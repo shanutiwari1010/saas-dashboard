@@ -117,8 +117,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="flex flex-wrap items-center  gap-2">
-          <Avatar className="h-9 w-9  flex items-center rounded-lg ">
+        <div className="flex flex-wrap items-center gap-2">
+          <Avatar className="flex h-9 w-9 items-center rounded-lg">
             <AvatarImage
               src={data.user.avatar}
               alt={data.user.name}
@@ -130,7 +130,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        
         <NavFavorites />
         <NavDashboard items={data.dashboard} />
         <NavPages items={data.pages} />
