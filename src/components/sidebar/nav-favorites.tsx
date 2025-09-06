@@ -1,26 +1,9 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { Link } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+
+import { FAVORITES_DATA } from "@/data/favourites";
 import { Collapsible } from "@/components/ui/collapsible";
 import { SidebarGroup, SidebarMenu } from "@/components/ui/sidebar";
-
-const FAVORITES_DATA = [
-  {
-    title: "Favorites",
-    key: "favorites",
-    data: [
-      { id: 1, title: "Overview", url: "/overview" },
-      { id: 2, title: "Projects", url: "/projects" },
-    ],
-  },
-  {
-    title: "Recently",
-    key: "recently",
-    data: [
-      { id: 1, title: "Projects", url: "/projects" },
-      { id: 2, title: "Overview", url: "/overview" },
-    ],
-  },
-];
 
 interface NavFavoritesProps {
   isMobile?: boolean;
