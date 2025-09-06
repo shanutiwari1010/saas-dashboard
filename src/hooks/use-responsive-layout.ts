@@ -1,7 +1,8 @@
-import { useRightSidebar } from "@/hooks/use-right-sidebar";
+import { useMemo } from "react";
+
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useMemo } from "react";
+import { useRightSidebar } from "@/hooks/use-right-sidebar";
 
 export function useResponsiveLayout() {
   const { isOpen: isRightSidebarOpen } = useRightSidebar();
