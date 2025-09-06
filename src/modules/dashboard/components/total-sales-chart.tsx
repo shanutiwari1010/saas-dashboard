@@ -9,7 +9,7 @@ const directPercentage = ((data[0].value / total) * 100).toFixed(1);
 export function TotalSalesChart() {
   return (
     <div className="w-80 rounded-2xl bg-gray-50 p-8 shadow-sm">
-      <h2 className="mb-8 text-2xl font-semibold text-balance text-gray-900">
+      <h2 className="mb-8 heading">
         Total Sales
       </h2>
 

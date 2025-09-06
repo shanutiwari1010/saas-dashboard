@@ -90,8 +90,7 @@ export default function RevenueByLocation() {
     <div className="w-96 bg-gray-50 p-6 md:p-8">
       <div className="mx-auto max-w-4xl">
         <h1
-          className="ml-6 text-lg leading-5 font-semibold text-balance text-[#1C1C1C]"
-          style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
+          className="ml-6 heading text-balance"
         >
           Revenue by Location
         </h1>

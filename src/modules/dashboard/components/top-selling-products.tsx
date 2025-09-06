@@ -6,9 +6,7 @@ import topSellingProducts from "../data/top-selling-products";
 export default function TopSellingProducts() {
   return (
     <Card className="w-3xl border-none bg-gray-50 p-6">
-      <h2 className="mb-6 text-2xl font-bold text-gray-900">
-        Top Selling Products
-      </h2>
+      <h2 className="heading mb-6">Top Selling Products</h2>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>

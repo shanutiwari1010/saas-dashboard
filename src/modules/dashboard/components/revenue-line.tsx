@@ -43,7 +43,7 @@ export default function RevenueLineChart() {
     <section className="flex h-[19.875rem] flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
       {/* Header + Legend */}
       <div className="flex flex-wrap items-center gap-4">
-        <h2 className="text-sm leading-5 font-semibold text-black dark:text-white">
+        <h2 className="heading">
           Revenue
         </h2>
         <div className="bg-border h-5 w-px" aria-hidden />

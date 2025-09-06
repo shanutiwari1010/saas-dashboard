@@ -240,3 +240,11 @@
     --sidebar-ring: oklch(0.439 0 0);
   }
 }
+@layer utilities {
+  .heading {
+    @apply text-lg leading-5 font-semibold text-balance text-black dark:text-white;
+  }
+  .animate-accordion-up {
+    animation: var(--animate-accordion-up);
+  }
+}

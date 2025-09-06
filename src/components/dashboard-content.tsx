@@ -15,7 +15,7 @@ export function DashboardContent() {
 
   return (
     <div className="flex flex-col gap-4 p-7 sm:gap-7">
-      <h1 className="px-2 py-1 text-sm leading-5 font-semibold text-black dark:text-white/10">
+      <h1 className="px-2 py-1 heading">
         eCommerce
       </h1>
       <div className="flex flex-wrap gap-4 sm:gap-7">

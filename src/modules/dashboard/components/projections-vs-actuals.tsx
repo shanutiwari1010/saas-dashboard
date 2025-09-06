@@ -83,7 +83,7 @@ function CustomTooltip({
 export function ProjectionsVsActualsChart() {
   return (
     <div className="flex h-64 flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
-      <h2 className="text-sm leading-5 font-semibold text-black dark:text-white">
+      <h2 className="heading ">
         Projections vs Actuals
       </h2>
 
