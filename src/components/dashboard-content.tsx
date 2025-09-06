@@ -1,5 +1,3 @@
-"use client";
-
 import { useResponsiveLayout } from "@/hooks/use-responsive-layout";
 import { SectionCards } from "@/modules/dashboard/components/section-cards";
 import { ProjectionsVsActualsChart } from "@/modules/dashboard/components/projections-vs-actuals";
