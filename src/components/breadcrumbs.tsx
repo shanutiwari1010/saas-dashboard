@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 export function Breadcrumbs() {
   const location = useLocation();
@@ -64,18 +64,17 @@ export function Breadcrumbs() {
     return nameMap[path] || path.charAt(0).toUpperCase() + path.slice(1);
   };
 
-  if (pathnames.length === 0) {
-    return null;
-  }
-
   return (
     <nav className="flex items-center space-x-1 text-sm text-gray-500">
-      <Link
-        to="/"
-        className="hover:text-gray-700 transition-colors"
-      >
-        Home
-      </Link>
+      {pathnames.length === 0 ? (
+        <span className="text-sm leading-5 font-normal text-black/40">
+          Home
+        </span>
+      ) : (
+        <Link to="/" className="transition-colors hover:text-gray-700">
+          Home
+        </Link>
+      )}
       {pathnames.map((path, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
         const isLast = index === pathnames.length - 1;
@@ -89,7 +88,7 @@ export function Breadcrumbs() {
             ) : (
               <Link
                 to={routeTo}
-                className="hover:text-gray-700 transition-colors"
+                className="transition-colors hover:text-gray-700"
               >
                 {name}
               </Link>
