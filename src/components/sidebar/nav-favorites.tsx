@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { Link } from "react-router-dom";
 import { Collapsible } from "@/components/ui/collapsible";
 import { SidebarGroup, SidebarMenu } from "@/components/ui/sidebar";
 
@@ -50,12 +51,12 @@ const NavFavorites: React.FunctionComponent<NavFavoritesProps> = () => {
                 <ul className="flex list-inside list-disc flex-col gap-1 text-sm font-normal [&>li::marker]:text-black/20 dark:[&>li::marker]:text-gray-500">
                   {tab.data.map((item) => (
                     <li key={item.id} className="px-3 py-1">
-                      <a
-                        href={item.url}
+                      <Link
+                        to={item.url}
                         className="hover:text-sidebar-accent-foreground relative -left-1 transition-colors"
                       >
                         {item.title}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
