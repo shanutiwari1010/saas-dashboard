@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarLeftPanel } from "./components/sidebar/sidebar-left-panel";
 import { SidebarRightPanel } from "./components/sidebar/sidebar-right-panel";
-import { RightSidebarProvider } from "@/components/ui/right-sidebar-provider";
+import { RightSidebarProvider } from "@/providers/right-sidebar-provider";
 import { DashboardContent } from "@/components/dashboard-content";
 
 import SidebarHeader from "@/components/sidebar/sidebar-header";

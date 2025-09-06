@@ -10,39 +10,42 @@ export interface BaseNotification {
 }
 
 export interface UserNotification extends BaseNotification {
-  type: 'user_registered' | 'user_subscribed' | 'user_followed';
+  type: "user_registered" | "user_subscribed" | "user_followed";
   userId?: string;
   userName?: string;
   userAvatar?: string;
 }
 
 export interface BugNotification extends BaseNotification {
-  type: 'bug_reported' | 'bug_fixed' | 'bug_urgent';
+  type: "bug_reported" | "bug_fixed" | "bug_urgent";
   bugId?: string;
-  severity?: 'low' | 'medium' | 'high' | 'critical';
+  severity?: "low" | "medium" | "high" | "critical";
   projectName?: string;
 }
 
 export interface SystemNotification extends BaseNotification {
-  type: 'system_maintenance' | 'system_update' | 'feature_release';
+  type: "system_maintenance" | "system_update" | "feature_release";
   actionUrl?: string;
   actionText?: string;
 }
 
-export type NotificationType = 
-  | 'user_registered' 
-  | 'user_subscribed' 
-  | 'user_followed'
-  | 'bug_reported' 
-  | 'bug_fixed' 
-  | 'bug_urgent'
-  | 'system_maintenance' 
-  | 'system_update' 
-  | 'feature_release';
+export type NotificationType =
+  | "user_registered"
+  | "user_subscribed"
+  | "user_followed"
+  | "bug_reported"
+  | "bug_fixed"
+  | "bug_urgent"
+  | "system_maintenance"
+  | "system_update"
+  | "feature_release";
 
-export type NotificationPriority = 'low' | 'medium' | 'high' | 'urgent';
+export type NotificationPriority = "low" | "medium" | "high" | "urgent";
 
-export type Notification = UserNotification | BugNotification | SystemNotification;
+export type Notification =
+  | UserNotification
+  | BugNotification
+  | SystemNotification;
 
 export interface NotificationFilters {
   types: NotificationType[];

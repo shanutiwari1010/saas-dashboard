@@ -10,7 +10,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { RightSidebarTrigger } from "@/components/ui/right-sidebar-trigger";
 import { Button } from "@/components/ui/button";
 import { ClockCounterClockwise, Star, Bell, Sidebar } from "phosphor-react";
-import { ModeToggle } from "@/components/ui/ mode-toggle";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const SidebarHeader = () => {
   return (

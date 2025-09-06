@@ -210,14 +210,16 @@ export function SidebarRightPanel() {
               {notifications.map((notification) => (
                 <Card
                   key={notification.id}
-                  className={cn("transition-all duration-200 shadow-none border-none")}
+                  className={cn(
+                    "border-none shadow-none transition-all duration-200"
+                  )}
                 >
                   <CardContent className="p-2">
                     <div className="flex items-start gap-3">
                       <div className="mt-1 flex-shrink-0">
                         {getTypeIcon(notification.type)}
                       </div>
-                      <div className="min-w-0 max-w-48 flex-1">
+                      <div className="max-w-48 min-w-0 flex-1">
                         <p className="truncate text-sm font-medium">
                           {notification.title}
                         </p>

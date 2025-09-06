@@ -6,12 +6,15 @@ export type RightSidebarContextProps = {
   toggle: () => void;
 };
 
-const RightSidebarContext = React.createContext<RightSidebarContextProps | null>(null);
+const RightSidebarContext =
+  React.createContext<RightSidebarContextProps | null>(null);
 
 export function useRightSidebar() {
   const context = React.useContext(RightSidebarContext);
   if (!context) {
-    throw new Error("useRightSidebar must be used within a RightSidebarProvider.");
+    throw new Error(
+      "useRightSidebar must be used within a RightSidebarProvider."
+    );
   }
   return context;
 }

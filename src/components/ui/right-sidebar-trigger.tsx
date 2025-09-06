@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useRightSidebar } from "@/hooks/use-right-sidebar";
 import { Button } from "./button";
