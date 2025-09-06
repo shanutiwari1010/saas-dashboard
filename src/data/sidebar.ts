@@ -5,11 +5,12 @@ import {
   UsersThree,
   ChartPieSlice,
   ChatsTeardrop,
-  IdentificationBadge,
   IdentificationCard,
   ShoppingCartSimple,
+  IdentificationBadge,
 } from "phosphor-react";
-import type { SidebarData } from "../types/sidebar";
+
+import type { SidebarData } from "@/types/sidebar";
 
 export const SIDEBAR_DATA: SidebarData = {
   user: {
