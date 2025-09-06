@@ -42,7 +42,7 @@ const RightSidebar = React.forwardRef<HTMLDivElement, RightSidebarProps>(
             data-sidebar="right-sidebar"
             data-slot="right-sidebar"
             data-mobile="true"
-            className="bg-background text-foreground w-80 p-0 [&>button]:hidden"
+            className="bg-background text-foreground w-80 p-0 [&>button]:hidden border-l"
             side="right"
           >
             <SheetHeader className="sr-only">
@@ -68,7 +68,9 @@ const RightSidebar = React.forwardRef<HTMLDivElement, RightSidebarProps>(
         )}
         {...props}
       >
-        <div className="h-full w-full md:w-[17.5rem]">{children}</div>
+        <div className="h-full w-full md:w-[17.5rem] bg-background border-l">
+          {children}
+        </div>
       </div>
     );
   }
