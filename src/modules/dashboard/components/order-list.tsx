@@ -1,4 +1,3 @@
-"use client";
 
 import { useEffect, useState } from "react";
 import { Search, X, Trash2, Edit, MoreHorizontal } from "lucide-react";
