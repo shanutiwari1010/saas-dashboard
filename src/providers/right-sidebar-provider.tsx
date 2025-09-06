@@ -1,6 +1,7 @@
 import * as React from "react";
-import { RightSidebarContext } from "@/hooks/use-right-sidebar";
+
 import { useIsMobile } from "@/hooks/use-mobile";
+import { RightSidebarContext } from "@/hooks/use-right-sidebar";
 
 interface RightSidebarProviderProps {
   readonly children: React.ReactNode;

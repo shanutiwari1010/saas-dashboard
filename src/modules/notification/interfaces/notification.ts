@@ -1,11 +1,14 @@
-
 export interface Notification {
   id: number;
   title: string;
   message: string;
   timestamp: Date;
   priority: "urgent" | "high" | "medium" | "low";
-  type: "bug_urgent" | "user_registered" | "system_maintenance" | "user_subscribed";
+  type:
+    | "bug_urgent"
+    | "user_registered"
+    | "system_maintenance"
+    | "user_subscribed";
   isRead: boolean;
   bugId?: string;
   projectName?: string;
@@ -35,31 +38,6 @@ export interface Contact {
   avatar: string;
   status: "online" | "away" | "offline";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // export interface BaseNotification {
 //   id: string;

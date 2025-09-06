@@ -22,9 +22,7 @@ export function ContactsLists() {
                   </AvatarFallback>
                 </Avatar>
               </div>
-              <h1 className="truncate text-sm font-light">
-                {contact.name}
-              </h1>
+              <h1 className="truncate text-sm font-light">{contact.name}</h1>
             </div>
           ))}
         </div>
