@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { SidebarLeftPanel } from "@/components/sidebar/sidebar-left-panel";
+
+import { SidebarHeader } from "@/components/sidebar/sidebar-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { RightSidebarProvider } from "@/providers/right-sidebar-provider";
-import SidebarHeader from "@/components/sidebar/sidebar-header";
+import { SidebarLeftPanel } from "@/components/sidebar/sidebar-left-panel";
 import { SidebarRightPanel } from "@/components/sidebar/sidebar-right-panel";
 
 export function MainLayout() {
