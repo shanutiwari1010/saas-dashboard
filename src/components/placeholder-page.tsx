@@ -5,12 +5,15 @@ interface PlaceholderPageProps {
   description?: string;
 }
 
-export function PlaceholderPage({ title, description }: PlaceholderPageProps) {
+export function PlaceholderPage({
+  title,
+  description,
+}: Readonly<PlaceholderPageProps>) {
   return (
     <div className="flex h-full items-center justify-center p-8">
       <Card className="w-full max-w-md">
         <CardContent className="flex flex-col items-center justify-center p-8 text-center">
-          <div className="mb-4 h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
             <svg
               className="h-8 w-8 text-gray-400"
               fill="none"
@@ -26,9 +29,7 @@ export function PlaceholderPage({ title, description }: PlaceholderPageProps) {
             </svg>
           </div>
           <h2 className="mb-2 text-xl font-semibold text-gray-900">{title}</h2>
-          {description && (
-            <p className="text-gray-600">{description}</p>
-          )}
+          {description && <p className="text-gray-600">{description}</p>}
           <p className="mt-4 text-sm text-gray-500">
             This page is coming soon. Content will be added here.
           </p>
