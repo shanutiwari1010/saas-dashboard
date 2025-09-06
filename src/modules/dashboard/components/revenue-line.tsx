@@ -1,34 +1,17 @@
-
-
+import { useMemo } from "react";
 import {
-  CartesianGrid,
-  Tooltip as RechartsTooltip,
+  Line,
   XAxis,
   YAxis,
   LineChart,
+  CartesianGrid,
   ResponsiveContainer,
-  Line,
+  Tooltip as RechartsTooltip,
 } from "recharts";
-import revenueLineBase from "../data/revenue-line";
 
-type Point = {
-  month: string;
-  previous: number;
-  current: number;
-  currentSolid: number | null;
-  currentForecast: number | null;
-};
-
-// Source-like demo data (units in millions)
-const base: Array<Omit<Point, "currentSolid" | "currentForecast">> =
-  revenueLineBase;
-
-// Split "current" into solid (Jan–Apr) and dotted forecast (Apr–Jun)
-const data: Point[] = base.map((d, i) => ({
-  ...d,
-  currentSolid: i <= 3 ? d.current : null,
-  currentForecast: i >= 3 ? d.current : null,
-}));
+import { useTheme } from "@/hooks/use-theme";
+import { REVENUE_LINE_DATA } from "@/modules/dashboard/data/revenue";
+import { formatNumberToMillions } from "@/modules/dashboard/utils/format";
 
 // Color system (4 total):
 // 1) Blue for previous week, 2) Black for current week, 3) Grid gray, 4) Background from theme
@@ -36,16 +19,69 @@ const BLUE = "#9BB9D4";
 const BLACK = "#111827";
 const GRID = "#E5E7EB";
 
-const formatMillions = (v: number) => `${v}M`;
+const CustomTooltip = ({ active, payload, label }: any) => {
+  const { theme } = useTheme();
+  if (active && payload && payload.length) {
+    // Filter out null values and combine current week data
+    const filteredPayload = payload.filter(
+      (entry: any) => entry.value !== null
+    );
+
+    // Group by name to avoid duplicates
+    const groupedData = filteredPayload.reduce((acc: any, entry: any) => {
+      if (entry.name === "Current Week") {
+        if (!acc["Current Week"]) {
+          acc["Current Week"] = entry;
+        }
+      } else {
+        acc[entry.name] = entry;
+      }
+      return acc;
+    }, {});
+
+    return (
+      <div
+        className={`rounded-lg border border-black/10 px-3 py-2 shadow-[#A7C4D9] ${
+          theme === "dark"
+            ? "border-white/20 bg-[#191919] text-white"
+            : "bg-white text-black"
+        }`}
+      >
+        {Object.values(groupedData).map((entry, index: number) => (
+          <div
+            key={index}
+            className="flex items-center gap-1 p-1 text-xs"
+            style={{ color: theme === "dark" ? "white" : "black" }}
+          >
+            <div
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: entry.color }}
+            ></div>
+            {entry.name}:{" "}
+            <span className="font-thin">${entry.value?.toLocaleString()}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function RevenueLineChart() {
+  const data = useMemo(() => {
+    // Split "current" into solid (Jan–Apr) and dotted forecast (Apr–Jun)
+    return REVENUE_LINE_DATA.map((d, i) => ({
+      ...d,
+      currentSolid: i <= 3 ? d.current : null,
+      currentForecast: i >= 3 ? d.current : null,
+    }));
+  }, []);
+
   return (
-    <section className="flex h-[19.875rem] flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
+    <section className="flex h-[19.875rem] w-full flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
       {/* Header + Legend */}
       <div className="flex flex-wrap items-center gap-4">
-        <h2 className="heading">
-          Revenue
-        </h2>
+        <h2 className="heading">Revenue</h2>
         <div className="bg-border h-5 w-px" aria-hidden />
         <div className="text-muted-foreground flex items-center gap-6 text-sm">
           <div className="flex items-center gap-2">
@@ -106,9 +142,9 @@ export default function RevenueLineChart() {
             }}
           />
           <YAxis
-            domain={[0, 30]}
-            ticks={[0, 10, 20, 30]}
-            tickFormatter={formatMillions}
+            domain={[0, 30000000]}
+            ticks={[0, 10000000, 20000000, 30000000]}
+            tickFormatter={formatNumberToMillions}
             tickLine={false}
             axisLine={false}
             tick={{
@@ -123,7 +159,11 @@ export default function RevenueLineChart() {
           />
           <RechartsTooltip
             cursor={{ stroke: GRID }}
-            formatter={(value: number, name: string) => [`${value}M`, name]}
+            formatter={(value: number, name: string) => [
+              formatNumberToMillions(value),
+              name,
+            ]}
+            content={<CustomTooltip />}
           />
 
           <Line
