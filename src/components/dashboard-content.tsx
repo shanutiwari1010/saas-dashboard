@@ -8,6 +8,7 @@ import RevenueByLocation from "@/modules/dashboard/components/revenue-by-locatio
 import TopSellingProducts from "@/modules/dashboard/components/top-selling-products";
 import { TotalSalesChart } from "@/modules/dashboard/components/total-sales-chart";
 import { cn } from "@/lib/utils";
+import OrderList from "@/modules/dashboard/components/order-list";
 
 export function DashboardContent() {
   const { gridCols } = useResponsiveLayout();
@@ -32,14 +33,14 @@ export function DashboardContent() {
         {/* Bottom row - RevenueLineChart, RevenueByLocation, TopSellingProducts, TotalSalesChart */}
         <div
           className={cn(
-            "grid gap-4 transition-all duration-300 sm:gap-7",
-            gridCols.bottom === 2 ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1"
+            "flex flex-wrap gap-4 transition-all duration-300 sm:gap-7"
           )}
         >
           <RevenueLineChart />
           <RevenueByLocation />
           <TopSellingProducts />
           <TotalSalesChart />
+          <OrderList/>
         </div>
       </div>
     </div>
