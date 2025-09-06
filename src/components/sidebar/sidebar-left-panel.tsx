@@ -1,13 +1,24 @@
 import * as React from "react";
-import { NavDashboard } from "@/components/sidebar/nav-dashboard";
-import { NavPages } from "@/components/sidebar/nav-pages";
-import { Sidebar, SidebarRail, SidebarContent, SidebarHeader } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { NavFavorites } from "@/components/sidebar/nav-favorites";
+
 import { cn } from "@/lib/utils";
+import { SIDEBAR_DATA } from "@/data/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { SIDEBAR_DATA } from "../../data/sidebar";
+
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import {
+  Sidebar,
+  SidebarRail,
+  SidebarHeader,
+  SidebarContent,
+} from "@/components/ui/sidebar";
+import { NavPages } from "@/components/sidebar/nav-pages";
+import { NavDashboard } from "@/components/sidebar/nav-dashboard";
+import { NavFavorites } from "@/components/sidebar/nav-favorites";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Memoize the user profile component to prevent unnecessary re-renders
 const UserProfile = React.memo(({ isVisible }: { isVisible: boolean }) => (
