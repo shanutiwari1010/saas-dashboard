@@ -1,7 +1,7 @@
-export interface IContact {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  avatar: string;
-}
+export interface Contact {
+    id: number;
+    name: string;
+    email: string;
+    avatar: string;
+    status: "online" | "away" | "offline";
+  }
