@@ -10,15 +10,13 @@ export default function TopSellingProducts() {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-gray-200">
-              <th className="py-3 text-left font-medium text-gray-500">Name</th>
-              <th className="py-3 text-left font-medium text-gray-500">
-                Price
-              </th>
-              <th className="py-3 text-left font-medium text-gray-500">
+            <tr className="border-b border-black/10 bg-gray-50">
+              <th className="py-3 text-left font-light text-black/40">Name</th>
+              <th className="py-3 text-left font-light text-black/40">Price</th>
+              <th className="py-3 text-left font-light text-black/40">
                 Quantity
               </th>
-              <th className="py-3 text-left font-medium text-gray-500">
+              <th className="py-3 text-left font-light text-black/40">
                 Amount
               </th>
             </tr>
@@ -26,14 +24,14 @@ export default function TopSellingProducts() {
           <tbody>
             {topSellingProducts.map((product) => (
               <tr key={product.name} className="border-b border-gray-100">
-                <td className="py-4 font-medium text-gray-900">
+                <td className="py-4 font-light ">
                   {product.name}
                 </td>
-                <td className="py-4 text-gray-900">
+                <td className="py-4 font-light">
                   ${product.price.toFixed(2)}
                 </td>
-                <td className="py-4 text-gray-900">{product.quantity}</td>
-                <td className="py-4 text-gray-900">
+                <td className="py-4 font-light">{product.quantity}</td>
+                <td className="py-4 font-light">
                   $
                   {product.amount.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
