@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import type { Map } from "leaflet";
@@ -42,7 +40,7 @@ export default function RevenueByLocation() {
         const map = L.map(mapRef.current, {
           center: [20, 0],
           zoom: 2,
-          zoomControl: true,
+          zoomControl: false,
           scrollWheelZoom: true,
           attributionControl: false,
         });
@@ -89,9 +87,12 @@ export default function RevenueByLocation() {
   const maxRevenue = 100; // Fixed maximum instead of using actual max value
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="w-96 bg-gray-50 p-6 md:p-8">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-8 text-4xl font-bold text-balance text-gray-900">
+        <h1
+          className="ml-6 text-lg leading-5 font-semibold text-balance text-[#1C1C1C]"
+          style={{ fontFeatureSettings: "'ss01' on, 'cv01' on, 'cv11' on" }}
+        >
           Revenue by Location
         </h1>
 

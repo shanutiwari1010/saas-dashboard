@@ -1,5 +1,3 @@
-"use client";
-
 import { Card } from "@/components/ui/card";
 import topSellingProducts from "../data/top-selling-products";
 

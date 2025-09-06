@@ -1,5 +1,3 @@
-"use client";
-
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import totalSalesData from "../data/total-sales";
 
@@ -10,7 +8,7 @@ const directPercentage = ((data[0].value / total) * 100).toFixed(1);
 
 export function TotalSalesChart() {
   return (
-    <div className="w-xl rounded-2xl bg-gray-50 p-8 shadow-sm">
+    <div className="w-80 rounded-2xl bg-gray-50 p-8 shadow-sm">
       <h2 className="mb-8 text-2xl font-semibold text-balance text-gray-900">
         Total Sales
       </h2>
