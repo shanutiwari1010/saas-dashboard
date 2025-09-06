@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { RightSidebarTrigger } from "@/components/ui/right-sidebar-trigger";
 import { Button } from "@/components/ui/button";
 import { ClockCounterClockwise, Star, Bell, Sidebar } from "phosphor-react";
 import { ModeToggle } from "@/components/ui/ mode-toggle";
@@ -35,15 +36,15 @@ const SidebarHeader = () => {
       </div>
       <div className="flex items-center gap-2">
         <ModeToggle />
-        <Button variant="ghost" size="icon">
+        <RightSidebarTrigger variant="ghost" size="icon">
           <ClockCounterClockwise size={20} weight="duotone" />
-        </Button>
-        <Button variant="ghost" size="icon">
+        </RightSidebarTrigger>
+        <RightSidebarTrigger variant="ghost" size="icon">
           <Sidebar size={20} weight="duotone" />
-        </Button>
-        <Button variant="ghost" size="icon">
+        </RightSidebarTrigger>
+        <RightSidebarTrigger variant="ghost" size="icon">
           <Bell size={20} weight="duotone" />
-        </Button>
+        </RightSidebarTrigger>
       </div>
     </header>
   );
