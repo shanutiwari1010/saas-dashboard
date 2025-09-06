@@ -1,6 +1,7 @@
 import * as React from "react";
+
 import { useRightSidebar } from "@/hooks/use-right-sidebar";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 
 interface RightSidebarTriggerProps
   extends React.ComponentPropsWithoutRef<typeof Button> {
