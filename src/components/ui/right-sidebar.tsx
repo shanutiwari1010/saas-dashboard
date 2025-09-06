@@ -1,13 +1,15 @@
 import * as React from "react";
-import { useRightSidebar } from "@/hooks/use-right-sidebar";
-import { useIsMobile } from "@/hooks/use-mobile";
+
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useRightSidebar } from "@/hooks/use-right-sidebar";
+
 import {
   Sheet,
+  SheetTitle,
+  SheetHeader,
   SheetContent,
   SheetDescription,
-  SheetHeader,
-  SheetTitle,
 } from "@/components/ui/sheet";
 
 interface RightSidebarProps extends React.ComponentPropsWithoutRef<"div"> {
@@ -42,7 +44,7 @@ const RightSidebar = React.forwardRef<HTMLDivElement, RightSidebarProps>(
             data-sidebar="right-sidebar"
             data-slot="right-sidebar"
             data-mobile="true"
-            className="bg-background text-foreground w-80 p-0 [&>button]:hidden border-l"
+            className="bg-background text-foreground w-80 border-l p-0 [&>button]:hidden"
             side="right"
           >
             <SheetHeader className="sr-only">
@@ -68,7 +70,7 @@ const RightSidebar = React.forwardRef<HTMLDivElement, RightSidebarProps>(
         )}
         {...props}
       >
-        <div className="h-full w-full md:w-[17.5rem] bg-background border-l">
+        <div className="bg-background h-full w-full border-l md:w-[17.5rem]">
           {children}
         </div>
       </div>
