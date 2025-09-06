@@ -1,6 +1,7 @@
-import { ChevronRight } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
 import { useMemo } from "react";
+import { ChevronRight } from "lucide-react";
+import type { IconProps } from "phosphor-react";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   Collapsible,
@@ -8,17 +9,16 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarGroup,
   SidebarMenuSub,
-  SidebarMenuSubButton,
+  SidebarMenuItem,
+  SidebarGroupLabel,
+  SidebarMenuButton,
   SidebarMenuSubItem,
+  SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import type { IconProps } from "phosphor-react";
 
 interface NavDashboardProps {
   items: Array<{
