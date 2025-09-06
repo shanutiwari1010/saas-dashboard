@@ -1,71 +1,78 @@
-
+import { z } from "zod";
 import { useEffect, useState } from "react";
-import { Search, X, Trash2, Edit, MoreHorizontal } from "lucide-react";
+import {
+  X,
+  Edit,
+  Search,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+} from "lucide-react";
 import {
   Plus,
   ArrowsDownUp,
   FunnelSimple,
-  CaretLeft,
-  CaretRight,
   CalendarBlank,
 } from "phosphor-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
+  TableRow,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
 } from "@/components/ui/table";
 import {
   AlertDialog,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import {
   Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
   DialogContent,
   DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+
 import {
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectTrigger,
 } from "@/components/ui/select";
 import {
   Pagination,
-  PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
+  PaginationContent,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { orders } from "../data/order";
-import { useOrdersStore } from "../store/use-order-store";
-import type { Order } from "../data/order";
-import { z } from "zod";
+import { orders } from "@/modules/dashboard/data/order";
+import type { Order } from "@/modules/dashboard/data/order";
+import { useOrdersStore } from "@/modules/dashboard/store/use-order-store";
 
 const statusColors = {
   "In Progress": "text-[var(--status-in-progress)]",
@@ -326,23 +333,23 @@ export default function OrderList() {
             <div className="flex items-center gap-2"></div>
           </div>
           <div className="mt-4 flex justify-between rounded-md bg-gray-50 p-2">
-            <div className="flex cursor-pointer items-center gap-2 px-3">
-              <Button variant="ghost" size={"icon"} onClick={handleAddOrder}>
+            <div className="flex cursor-pointer items-center gap-2">
+              <Button variant="ghost" size="icon" onClick={handleAddOrder}>
                 <Plus size={20} />
               </Button>
-              <Button variant="ghost" size={"icon"}>
+              <Button variant="ghost" size="icon">
                 <FunnelSimple size={20} />
               </Button>
-              <Button variant="ghost" size={"icon"}>
+              <Button variant="ghost" size="icon">
                 <ArrowsDownUp size={20} />
               </Button>
 
               {selectedCount > 0 && (
                 <Button
-                  onClick={handleDeleteSelected}
-                  variant="destructive"
                   size="sm"
+                  variant="destructive"
                   className="text-white"
+                  onClick={handleDeleteSelected}
                 >
                   <Trash2 className="h-4 w-4" />
                   Delete Selected ({selectedCount})
@@ -352,18 +359,20 @@ export default function OrderList() {
             <div className="relative px-1">
               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-black/20" />
               <Input
-                placeholder="Search"
                 value={searchTerm}
+                placeholder="Search"
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-52 pr-10 pl-8 text-3xl text-gray-400 placeholder:text-black/20 focus:bg-white focus:text-gray-900 focus:ring-0"
+                className="w-52 pr-10 pl-8 font-normal text-black/20 focus:bg-white focus:ring-0"
               />
               {searchTerm && (
-                <button
+                <Button
+                  size="icon"
+                  variant="ghost"
                   onClick={() => setSearchTerm("")}
-                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-gray-600"
+                  className="absolute top-1/2 right-3 h-5 w-5 -translate-y-1/2 transform rounded-full text-gray-400 transition-colors placeholder:text-black/20 [&_svg]:size-3"
                 >
-                  <X className="h-4 w-4" />
-                </button>
+                  <X className="h-2 w-2" />
+                </Button>
               )}
             </div>
           </div>
@@ -551,17 +560,20 @@ export default function OrderList() {
               <Pagination>
                 <PaginationContent className="flex w-full items-center justify-end">
                   <PaginationItem>
-                    <CaretLeft
-                      size={24}
-                      onClick={() =>
-                        setCurrentPage(Math.max(currentPage - 1, 1))
-                      }
+                    <Button
+                      size="icon"
+                      variant="ghost"
                       className={
                         currentPage === 1
                           ? "pointer-events-none opacity-50"
                           : "cursor-pointer"
                       }
-                    />
+                      onClick={() =>
+                        setCurrentPage(Math.max(currentPage - 1, 1))
+                      }
+                    >
+                      <ChevronLeft size={20} />
+                    </Button>
                   </PaginationItem>
 
                   {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -586,17 +598,20 @@ export default function OrderList() {
                   )}
 
                   <PaginationItem>
-                    <CaretRight
-                      size={24}
-                      onClick={() =>
-                        setCurrentPage(Math.min(currentPage + 1, totalPages))
-                      }
+                    <Button
+                      size="icon"
+                      variant="ghost"
                       className={
                         currentPage === totalPages
                           ? "pointer-events-none opacity-50"
                           : "cursor-pointer"
                       }
-                    />
+                      onClick={() =>
+                        setCurrentPage(Math.min(currentPage + 1, totalPages))
+                      }
+                    >
+                      <ChevronRight size={20} />
+                    </Button>
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
