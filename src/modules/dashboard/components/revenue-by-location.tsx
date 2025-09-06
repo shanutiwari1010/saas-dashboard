@@ -1,17 +1,26 @@
-import { useEffect, useRef } from "react";
-import { Card } from "@/components/ui/card";
 import type { Map } from "leaflet";
-import revenueByLocationData from "../data/revenue-by-location";
+import { useEffect, useRef, useMemo } from "react";
 
-// Revenue data for different locations
-const revenueData = revenueByLocationData;
+import { formatNumberToThousands } from "@/modules/dashboard/utils/format";
+import { REVENUE_BY_LOCATION_DATA } from "@/modules/dashboard/data/revenue";
 
 export default function RevenueByLocation() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
 
+  const locationsWithProgress = useMemo(() => {
+    const maxRevenue = Math.max(
+      ...REVENUE_BY_LOCATION_DATA.map((loc) => loc.revenue)
+    );
+
+    return REVENUE_BY_LOCATION_DATA.map((location) => ({
+      ...location,
+      progressPercentage: (location.revenue / maxRevenue) * 100,
+      formattedRevenue: formatNumberToThousands(location.revenue),
+    }));
+  }, []);
+
   useEffect(() => {
-    // Dynamically import Leaflet to avoid SSR issues
     const initMap = async () => {
       const L = (await import("leaflet")).default;
 
@@ -39,7 +48,7 @@ export default function RevenueByLocation() {
         // Initialize the map
         const map = L.map(mapRef.current, {
           center: [20, 0],
-          zoom: 2,
+          zoom: -5,
           zoomControl: false,
           scrollWheelZoom: true,
           attributionControl: false,
@@ -55,18 +64,23 @@ export default function RevenueByLocation() {
 
         const customIcon = L.divIcon({
           className: "custom-marker",
-          html: '<div style="background-color: #000; width: 14px; height: 14px; border-radius: 50%;"></div>',
-          iconSize: [14, 14],
-          iconAnchor: [7, 7],
+          html: '<div class="flex items-center p-0.5 w-3 h-3 rounded-full shadow-2xl bg-white justify-center"><div class="w-full h-full rounded-full bg-black"></div></div>',
+          iconSize: [10, 10],
+          iconAnchor: [10, 10],
         });
 
         // Add markers for each location
-        revenueData.forEach((location) => {
-          L.marker([location.lat, location.lng], { icon: customIcon })
-            .addTo(map)
-            .bindPopup(
-              `<strong>${location.name}</strong><br/>Revenue: ${location.revenue}`
-            );
+        REVENUE_BY_LOCATION_DATA.forEach((location) => {
+          if (location.coordinates) {
+            L.marker(
+              [location.coordinates.latitude, location.coordinates.longitude],
+              { icon: customIcon }
+            )
+              .addTo(map)
+              .bindPopup(
+                `<strong>${location.name}</strong><br/>Revenue: ${formatNumberToThousands(location.revenue)}`
+              );
+          }
         });
 
         mapInstanceRef.current = map;
@@ -84,45 +98,30 @@ export default function RevenueByLocation() {
     };
   }, []);
 
-  const maxRevenue = 100; // Fixed maximum instead of using actual max value
-
   return (
-    <div className="w-96 bg-gray-50 p-6 md:p-8">
-      <div className="mx-auto max-w-4xl">
-        <h1
-          className="ml-6 heading text-balance"
-        >
-          Revenue by Location
-        </h1>
+    <div className="flex h-[318px] w-full flex-col gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
+      <h1 className="heading">Revenue by Location</h1>
 
-        <Card className="rounded-none border-none bg-gray-50 py-6 shadow-none">
-          <div
-            ref={mapRef}
-            className="h-96 w-full overflow-hidden"
-            style={{ minHeight: "400px", backgroundColor: "#f9fafb" }}
-          />
-        </Card>
+      <div
+        ref={mapRef}
+        className="min-h-[82px] w-full overflow-hidden rounded-lg bg-[#f9fafb] hover:ring-2 hover:ring-gray-200"
+      />
 
-        <div className="space-y-6">
-          {revenueData.map((location) => (
-            <div key={location.name} className="space-y-2">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-medium text-gray-900">
-                  {location.name}
-                </h3>
-                <div className="text-xl font-semibold text-gray-900">
-                  {location.revenue}
-                </div>
-              </div>
-              <div className="h-1 w-full rounded-full bg-gray-200">
-                <div
-                  className="h-1 rounded-full bg-[#9BB9D4] transition-all duration-300"
-                  style={{ width: `${(location.value / maxRevenue) * 100}%` }}
-                />
-              </div>
+      <div className="flex flex-col gap-4">
+        {locationsWithProgress.map((location) => (
+          <div key={location.name} className="space-y-0.5">
+            <div className="flex items-center justify-between text-xs leading-[1.125rem] font-normal text-black">
+              <h3>{location.name}</h3>
+              <p>{location.formattedRevenue}</p>
             </div>
-          ))}
-        </div>
+            <div className="relative h-0.5 w-full rounded-lg bg-gray-200">
+              <div
+                className="h-full rounded-lg bg-gray-500 transition-all duration-500 ease-out"
+                style={{ width: `${location.progressPercentage}%` }}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
