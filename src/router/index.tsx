@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
+
 import { MainLayout } from "@/layouts/main-layout";
+import { DashboardContainer } from "@/layouts/container";
+
 import { PlaceholderPage } from "@/components/placeholder-page";
 import OrderList from "@/modules/dashboard/components/order-list";
-import { DashboardContent } from "@/components/dashboard-content";
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +13,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardContent />,
+        element: <DashboardContainer />,
       },
       // eCommerce routes
       {
@@ -63,6 +65,20 @@ export const router = createBrowserRouter([
               <PlaceholderPage
                 title="Sales"
                 description="View sales analytics and reports"
+              />
+            ),
+          },
+        ],
+      },
+      {
+        path: "overview",
+        children: [
+          {
+            index: true,
+            element: (
+              <PlaceholderPage
+                title="Overview"
+                description="View your overview"
               />
             ),
           },
