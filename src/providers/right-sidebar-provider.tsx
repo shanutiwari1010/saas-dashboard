@@ -9,7 +9,7 @@ interface RightSidebarProviderProps {
 
 export function RightSidebarProvider({
   children,
-  defaultOpen = false,
+  defaultOpen = true,
 }: RightSidebarProviderProps) {
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
   const isMobile = useIsMobile();
