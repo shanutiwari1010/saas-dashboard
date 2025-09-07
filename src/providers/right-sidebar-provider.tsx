@@ -30,7 +30,7 @@ export function RightSidebarProvider({
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
-        event.key === "b" &&
+        event.key === "r" &&
         (event.metaKey || event.ctrlKey) &&
         event.shiftKey
       ) {
