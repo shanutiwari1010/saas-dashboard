@@ -30,7 +30,7 @@ export const activities: IActivity[] = [
     id: 4,
     title: "Modified A data in Page X",
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
-    image: "public/avatars/ryan-mercer.svg",
+    image: "/avatars/ryan-mercer.svg",
     type: "edit",
     user: { name: "Admin", avatar: "/avatars/admin.svg" },
   },
