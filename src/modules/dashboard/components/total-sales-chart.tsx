@@ -26,7 +26,7 @@ export function TotalSalesChart() {
         y={cy}
         textAnchor="middle"
         dominantBaseline="middle"
-        fill={theme === "dark" ? "#FFFFFF" : "#000000"}
+        fill={theme === "dark" ? "var(--color-white)" : "var(--color-black)"}
         className="text-sm font-semibold"
       >
         ${segment.value.toFixed(2)}
@@ -35,7 +35,7 @@ export function TotalSalesChart() {
   };
 
   return (
-    <div className="space-y-4 rounded-2xl bg-gray-50 p-6">
+    <div className="bg-dashboard-revenue space-y-4 rounded-2xl p-6">
       <h2 className="heading">Total Sales</h2>
 
       <div className="relative">
@@ -47,6 +47,7 @@ export function TotalSalesChart() {
               dataKey="value"
               startAngle={90}
               endAngle={450}
+              strokeWidth={0}
               innerRadius={40}
               outerRadius={60}
               paddingAngle={4}
@@ -90,9 +91,11 @@ export function TotalSalesChart() {
                     theme === "dark" ? item.color.dark : item.color.light,
                 }}
               />
-              <span className="text-gray-700">{item.label}</span>
+              <span className="text-black dark:text-white">{item.label}</span>
             </div>
-            <span className="text-gray-900">${item.value.toFixed(2)}</span>
+            <span className="text-black dark:text-white">
+              ${item.value.toFixed(2)}
+            </span>
           </div>
         ))}
       </div>
