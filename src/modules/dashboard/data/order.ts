@@ -125,7 +125,7 @@ export const orders: Order[] = [
     id: "#CM9811",
     user: {
       name: "David Martinez",
-      avatar: "/public/avatars/john-doe.svg",
+      avatar: "/avatars/john-doe.svg",
     },
     project: "API Documentation",
     address: "Tech Boulevard Austin",
@@ -147,7 +147,7 @@ export const orders: Order[] = [
     id: "#CM9813",
     user: {
       name: "Robert Garcia",
-      avatar: "/public/avatars/ethan-cole.svg",
+      avatar: "/avatars/ethan-cole.svg",
     },
     project: "Consulting Site",
     address: "Business Park Denver",
@@ -158,7 +158,7 @@ export const orders: Order[] = [
     id: "#CM9814",
     user: {
       name: "Jennifer Lee",
-      avatar: "/avatars/rebecca-clarke.svg",
+      avatar: "/rebecca-clarke.svg",
     },
     project: "Marketing Campaign",
     address: "Creative District LA",
@@ -169,7 +169,7 @@ export const orders: Order[] = [
     id: "#CM9815",
     user: {
       name: "Thomas Anderson",
-      avatar: "/public/avatars/ryan-mercer.svg",
+      avatar: "/avatars/ryan-mercer.svg",
     },
     project: "Architecture Firm",
     address: "Design Avenue Phoenix",
