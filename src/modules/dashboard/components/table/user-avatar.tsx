@@ -1,6 +1,10 @@
 import { memo } from "react";
 
-import type { UserAvatarProps } from "@/modules/dashboard/types/table";
+export interface UserAvatarProps {
+  name: string;
+  avatar?: string;
+  size?: string;
+}
 
 export const UserAvatar = memo<UserAvatarProps>(
   ({ name, avatar, size = "h-8 w-8" }) => {
