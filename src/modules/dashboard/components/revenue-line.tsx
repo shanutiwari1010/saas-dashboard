@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, memo, useCallback } from "react";
 import {
   Line,
+  Area,
   XAxis,
   YAxis,
-  LineChart,
+  ComposedChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip as RechartsTooltip,
@@ -12,63 +13,58 @@ import {
 import { useTheme } from "@/hooks/use-theme";
 import { REVENUE_LINE_DATA } from "@/modules/dashboard/data/revenue";
 import { formatNumberToMillions } from "@/modules/dashboard/utils/format";
+import type { RevenueLineDataPoint } from "@/modules/dashboard/types/charts";
+import { ChartTooltip } from "@/modules/dashboard/components/chart-wrappers/tooltip";
 
-// Color system (4 total):
-// 1) Blue for previous week, 2) Black for current week, 3) Grid gray, 4) Background from theme
-const BLUE = "#9BB9D4";
-const BLACK = "#111827";
-const GRID = "#E5E7EB";
+interface ProcessedDataPoint extends RevenueLineDataPoint {
+  currentSolid: number | null;
+  currentForecast: number | null;
+}
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface LegendItemProps {
+  color: string;
+  label: string;
+  value: number;
+  formatRevenue: (value: number) => string;
+}
+
+const LegendItem = memo(
+  ({ color, label, value, formatRevenue }: LegendItemProps) => (
+    <div className="flex items-center gap-2">
+      <span
+        className="inline-block h-2.5 w-2.5 rounded-full"
+        style={{ backgroundColor: color }}
+        aria-hidden="true"
+      />
+      <span className="font-normal">
+        {label}{" "}
+        <span className="text-foreground font-semibold" aria-label={label}>
+          {formatRevenue(value)}
+        </span>
+      </span>
+    </div>
+  )
+);
+
+LegendItem.displayName = "LegendItem";
+
+const RevenueLineChart = memo(() => {
   const { theme } = useTheme();
-  if (active && payload && payload.length) {
-    // Filter out null values and combine current week data
-    const filteredPayload = payload.filter(
-      (entry: any) => entry.value !== null
-    );
 
-    // Group by name to avoid duplicates
-    const groupedData = filteredPayload.reduce((acc: any, entry: any) => {
-      if (entry.name === "Current Week") {
-        if (!acc["Current Week"]) {
-          acc["Current Week"] = entry;
-        }
-      } else {
-        acc[entry.name] = entry;
-      }
-      return acc;
-    }, {});
+  const colors = useMemo(() => {
+    return {
+      previous: "var(--color-dashboard-dots)",
+      current:
+        theme === "dark"
+          ? "var(--color-dashboard-purple)"
+          : "var(--color-black)",
+      axis: theme === "dark" ? "var(--color-white)" : "var(--color-black)",
+      grid: theme === "dark" ? "var(--color-white)" : "var(--color-black)",
+    };
+  }, [theme]);
 
-    return (
-      <div
-        className={`rounded-lg border border-black/10 px-3 py-2 shadow-[#A7C4D9] ${
-          theme === "dark"
-            ? "border-white/20 bg-[#191919] text-white"
-            : "bg-white text-black"
-        }`}
-      >
-        {Object.values(groupedData).map((entry, index: number) => (
-          <div
-            key={index}
-            className="flex items-center gap-1 p-1 text-xs"
-            style={{ color: theme === "dark" ? "white" : "black" }}
-          >
-            <div
-              className="h-2 w-2 rounded-full"
-              style={{ backgroundColor: entry.color }}
-            ></div>
-            {entry.name}:{" "}
-            <span className="font-thin">${entry.value?.toLocaleString()}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  return null;
-};
-
-export default function RevenueLineChart() {
-  const data = useMemo(() => {
+  // Memoized processed data
+  const data = useMemo((): ProcessedDataPoint[] => {
     // Split "current" into solid (Jan–Apr) and dotted forecast (Apr–Jun)
     return REVENUE_LINE_DATA.map((d, i) => ({
       ...d,
@@ -77,127 +73,205 @@ export default function RevenueLineChart() {
     }));
   }, []);
 
+  // Memoized tooltip formatter
+  const tooltipFormatter = useCallback(
+    (value: number, name: string) => [formatNumberToMillions(value), name],
+    []
+  );
+
+  // Revenue formatter for consistent display
+  const formatRevenue = useCallback((value: number) => {
+    return `$${value.toLocaleString()}`;
+  }, []);
+
+  // Calculate real values for legend
+  const legendValues = useMemo(() => {
+    // Get the latest month's data (June)
+    const latestData = REVENUE_LINE_DATA[REVENUE_LINE_DATA.length - 1];
+    return {
+      currentWeek: latestData.current,
+      previousWeek: latestData.previous,
+    };
+  }, []);
+
   return (
-    <section className="flex h-[19.875rem] w-full flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
+    <section
+      className="bg-dashboard-revenue flex h-[19.875rem] w-full flex-1 flex-shrink-0 flex-grow basis-0 flex-col items-start gap-4 rounded-2xl p-6"
+      aria-label="Revenue line chart showing current and previous week data"
+    >
       {/* Header + Legend */}
-      <div className="flex flex-wrap items-center gap-4">
+      <header className="flex flex-wrap items-center gap-4">
         <h2 className="heading">Revenue</h2>
-        <div className="bg-border h-5 w-px" aria-hidden />
+        <div className="bg-border h-5 w-px" aria-hidden="true" />
         <div className="text-muted-foreground flex items-center gap-6 text-sm">
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-block h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: BLACK }}
-              aria-hidden
-            />
-            <span>
-              Current Week{" "}
-              <span className="text-foreground font-semibold">$58,211</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-block h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: BLUE }}
-              aria-hidden
-            />
-            <span>
-              Previous Week{" "}
-              <span className="text-foreground font-semibold">$68,768</span>
-            </span>
-          </div>
+          <LegendItem
+            label="Current Week"
+            color={colors.current}
+            formatRevenue={formatRevenue}
+            value={legendValues.currentWeek}
+          />
+          <LegendItem
+            label="Previous Week"
+            color={colors.previous}
+            formatRevenue={formatRevenue}
+            value={legendValues.previousWeek}
+          />
         </div>
-      </div>
+      </header>
 
-      {/* Chart */}
-      <ResponsiveContainer
-        width="100%"
-        height="100%"
-        // className="relative -left-3.5"
+      <div
+        className="w-full flex-1"
+        aria-label="Interactive revenue chart with data points"
       >
-        <LineChart
-          data={data}
-          margin={{ top: 0, right: 24, bottom: 0, left: -20 }}
-        >
-          <defs>
-            {/* Subtle blue area fill  */}
-            <linearGradient id="rev-blue-fill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={BLUE} stopOpacity={0.28} />
-              <stop offset="100%" stopColor={BLUE} stopOpacity={0.04} />
-            </linearGradient>
-          </defs>
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart
+            data={data}
+            margin={{ top: 0, right: 24, bottom: 0, left: -20 }}
+            accessibilityLayer
+          >
+            <defs>
+              {/* Enhanced gradient for area fill */}
+              <linearGradient
+                id="revenue-gradient"
+                x1="0"
+                y1="0"
+                x2="0.5"
+                y2="1"
+              >
+                <stop
+                  offset="0%"
+                  stopColor={colors.previous}
+                  stopOpacity={0.45}
+                />
+                <stop
+                  offset="10%"
+                  stopColor={colors.previous}
+                  stopOpacity={0.25}
+                />
+                <stop
+                  offset="50%"
+                  stopColor={colors.previous}
+                  stopOpacity={0.05}
+                />
+              </linearGradient>
+              {/* Gradient for current week line */}
+              <linearGradient
+                id="current-line-gradient"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="0"
+              >
+                <stop offset="0%" stopColor={colors.current} stopOpacity={1} />
+                <stop
+                  offset="50%"
+                  stopColor={colors.current}
+                  stopOpacity={0.8}
+                />
+              </linearGradient>
+            </defs>
 
-          <CartesianGrid stroke={GRID} vertical={false} strokeDasharray="3 0" />
-          <XAxis
-            dataKey="month"
-            tickLine={false}
-            axisLine={{ stroke: GRID }}
-            tickMargin={8}
-            tick={{
-              fill: "rgba(28, 28, 28, 0.40)",
-              fontSize: 12,
-              fontFamily: "Inter",
-              fontWeight: 400,
-              textAnchor: "middle",
-            }}
-          />
-          <YAxis
-            domain={[0, 30000000]}
-            ticks={[0, 10000000, 20000000, 30000000]}
-            tickFormatter={formatNumberToMillions}
-            tickLine={false}
-            axisLine={false}
-            tick={{
-              dy: -4,
-              dx: -20,
-              fill: "rgba(28, 28, 28, 0.40)",
-              fontSize: 12,
-              fontFamily: "Inter",
-              fontWeight: 400,
-              textAnchor: "middle",
-            }}
-          />
-          <RechartsTooltip
-            cursor={{ stroke: GRID }}
-            formatter={(value: number, name: string) => [
-              formatNumberToMillions(value),
-              name,
-            ]}
-            content={<CustomTooltip />}
-          />
+            <CartesianGrid
+              vertical={false}
+              strokeOpacity={0.05}
+              stroke={colors.grid}
+              strokeDasharray="3 0"
+            />
 
-          <Line
-            type="natural"
-            dataKey="previous"
-            stroke="#A8C5DA"
-            strokeWidth={3}
-            dot={false}
-            name="Previous Week"
-          />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={{ stroke: colors.grid, strokeOpacity: 0.05 }}
+              tickMargin={8}
+              tick={{
+                fontSize: 12,
+                fontWeight: 400,
+                fillOpacity: 0.4,
+                fill: colors.axis,
+                fontFamily: "Inter",
+                textAnchor: "middle",
+              }}
+            />
 
-          {/* Current Week solid (Jan–Apr) */}
-          <Line
-            type="monotone"
-            dataKey="currentSolid"
-            stroke={BLACK}
-            strokeWidth={3.5}
-            dot={false}
-            isAnimationActive={false}
-          />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              domain={[0, 30000000]}
+              ticks={[0, 10000000, 20000000, 30000000]}
+              tickFormatter={formatNumberToMillions}
+              tick={{
+                dy: -4,
+                dx: -20,
+                fontSize: 12,
+                fontWeight: 400,
+                fillOpacity: 0.4,
+                fill: colors.axis,
+                fontFamily: "Inter",
+                textAnchor: "middle",
+              }}
+            />
 
-          {/* Current Week dotted forecast (Apr–Jun) */}
-          <Line
-            type="monotone"
-            dataKey="currentForecast"
-            stroke={BLACK}
-            strokeDasharray="6 10"
-            strokeWidth={3.5}
-            dot={false}
-            strokeLinecap="round"
-            isAnimationActive={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+            <RechartsTooltip
+              cursor={{
+                stroke: colors.grid,
+                strokeWidth: 1,
+                strokeOpacity: 0.05,
+              }}
+              formatter={tooltipFormatter}
+              content={<ChartTooltip colors={colors} chartType="revenue" />}
+            />
+
+            {/* Area fill for visual enhancement */}
+            <Area
+              type="monotone"
+              dataKey="previous"
+              stroke="none"
+              fill="url(#revenue-gradient)"
+              isAnimationActive={true}
+            />
+
+            {/* Previous Week Line */}
+            <Line
+              type="natural"
+              name="Previous Week"
+              dataKey="previous"
+              strokeLinecap="round"
+              stroke={colors.previous}
+              dot={false}
+              strokeWidth={3}
+              isAnimationActive={true}
+            />
+
+            {/* Current Week solid (Jan–Apr) */}
+            <Line
+              type="monotone"
+              name="Current Week"
+              dataKey="currentSolid"
+              strokeLinecap="round"
+              stroke="url(#current-line-gradient)"
+              dot={false}
+              strokeWidth={3.5}
+              isAnimationActive={true}
+            />
+
+            {/* Current Week dotted forecast (Apr–Jun) */}
+            <Line
+              type="monotone"
+              name="Current Week"
+              dataKey="currentForecast"
+              strokeLinecap="round"
+              strokeDasharray="6 10"
+              stroke="url(#current-line-gradient)"
+              dot={false}
+              strokeWidth={3.5}
+              isAnimationActive={true}
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
     </section>
   );
-}
+});
+
+export { RevenueLineChart };
+RevenueLineChart.displayName = "RevenueLineChart";
