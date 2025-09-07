@@ -4,7 +4,7 @@ import { MainLayout } from "@/layouts/main-layout";
 import { DashboardContainer } from "@/layouts/container";
 
 import { PlaceholderPage } from "@/components/placeholder-page";
-import OrderList from "@/modules/dashboard/components/order-list";
+import { OrderList } from "@/modules/dashboard/components/order-list";
 
 export const router = createBrowserRouter([
   {
