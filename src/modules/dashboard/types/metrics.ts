@@ -15,8 +15,18 @@ export const MetricTrend = {
 
 export type MetricTrend = (typeof MetricTrend)[keyof typeof MetricTrend];
 
+// Specific metric card IDs for type safety
+export const MetricCardIds = {
+  CUSTOMERS: "customers",
+  ORDERS: "orders",
+  REVENUE: "revenue",
+  GROWTH: "growth",
+} as const;
+
+export type MetricCardId = (typeof MetricCardIds)[keyof typeof MetricCardIds];
+
 export interface MetricCard {
-  id: string;
+  id: MetricCardId;
   title: string;
   description?: string;
   value: string | number;
