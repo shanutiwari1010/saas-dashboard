@@ -4,7 +4,7 @@ import { useEffect, useRef, useMemo } from "react";
 import { formatNumberToThousands } from "@/modules/dashboard/utils/format";
 import { REVENUE_BY_LOCATION_DATA } from "@/modules/dashboard/data/revenue";
 
-export default function RevenueByLocation() {
+export function RevenueByLocation() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
 
@@ -33,7 +33,7 @@ export default function RevenueByLocation() {
       const style = document.createElement("style");
       style.textContent = `
         .leaflet-container {
-          background-color: #f9fafb !important;
+          background-color: var(--color-dashboard-light) !important;
         }
         .leaflet-tile-pane {
           filter: contrast(1.1) brightness(1.05);
@@ -64,7 +64,7 @@ export default function RevenueByLocation() {
 
         const customIcon = L.divIcon({
           className: "custom-marker",
-          html: '<div class="flex items-center p-0.5 w-3 h-3 rounded-full shadow-2xl bg-white justify-center"><div class="w-full h-full rounded-full bg-black"></div></div>',
+          html: '<div class="flex items-center p-0.5 w-3 h-3 rounded-full shadow-2xl bg-white justify-center"><div class="w-full h-full rounded-full bg-black dark:bg-dashboard-purple"></div></div>',
           iconSize: [10, 10],
           iconAnchor: [10, 10],
         });
@@ -99,24 +99,24 @@ export default function RevenueByLocation() {
   }, []);
 
   return (
-    <div className="flex h-[318px] w-full flex-col gap-4 rounded-2xl bg-[var(--color-primary-blue)] p-6">
+    <div className="bg-dashboard-light flex h-[318px] w-full flex-col gap-4 rounded-2xl p-6">
       <h1 className="heading">Revenue by Location</h1>
 
       <div
         ref={mapRef}
-        className="min-h-[82px] w-full overflow-hidden rounded-lg bg-[#f9fafb] hover:ring-2 hover:ring-gray-200"
+        className="bg-dashboard-light min-h-[82px] w-full overflow-hidden rounded-lg hover:ring-2 hover:ring-gray-200 dark:hover:ring-gray-700"
       />
 
       <div className="flex flex-col gap-4">
         {locationsWithProgress.map((location) => (
           <div key={location.name} className="space-y-0.5">
-            <div className="flex items-center justify-between text-xs leading-[1.125rem] font-normal text-black">
+            <div className="flex items-center justify-between text-xs leading-[1.125rem] font-normal text-black dark:text-white">
               <h3>{location.name}</h3>
               <p>{location.formattedRevenue}</p>
             </div>
-            <div className="relative h-0.5 w-full rounded-lg bg-gray-200">
+            <div className="relative h-0.5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
               <div
-                className="h-full rounded-lg bg-gray-500 transition-all duration-500 ease-out"
+                className="bg-dashboard-cyan h-full rounded-lg transition-all duration-500 ease-out"
                 style={{ width: `${location.progressPercentage}%` }}
               />
             </div>
