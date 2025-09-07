@@ -37,5 +37,3 @@ export const TOP_SELLING_PRODUCTS: TopSellingProduct[] = [
     amount: 1965.81,
   },
 ];
-
-export default TOP_SELLING_PRODUCTS;
