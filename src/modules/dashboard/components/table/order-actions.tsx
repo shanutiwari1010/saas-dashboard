@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Edit, Trash2, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -8,17 +8,24 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import type { OrderActionsProps } from "@/modules/dashboard/types/table";
+
+interface OrderActionsProps {
+  orderId: string;
+  isVisible: boolean;
+  onDelete: (orderId: string) => void;
+}
 
 export const OrderActions = memo<OrderActionsProps>(
   ({ orderId, isVisible, onDelete }) => {
-    if (!isVisible) {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    if (!isVisible && !isDropdownOpen) {
       return <div className="h-8 w-8" />;
     }
 
     return (
       <div className="flex items-center justify-center">
-        <DropdownMenu>
+        <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
