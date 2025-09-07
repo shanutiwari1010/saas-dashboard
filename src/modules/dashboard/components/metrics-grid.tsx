@@ -1,7 +1,7 @@
 import { MetricCard } from "@/modules/dashboard/components/metric-card";
 import { useDashboardStore } from "@/modules/dashboard/store/use-dashboard-store";
 
-export const MetricsGrid = () => {
+const MetricsGrid: React.FunctionComponent = () => {
   const metrics = useDashboardStore((state) => state.data?.metrics);
 
   return (
@@ -12,3 +12,6 @@ export const MetricsGrid = () => {
     </div>
   );
 };
+
+export { MetricsGrid };
+MetricsGrid.displayName = "MetricsGrid";
