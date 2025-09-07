@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <RouterProvider router={router} />
       <Toaster />
     </ThemeProvider>
