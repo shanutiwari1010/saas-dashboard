@@ -23,7 +23,7 @@ const NavFavorites: React.FunctionComponent<NavFavoritesProps> = () => {
                 <TabsTrigger
                   key={tab.key}
                   value={tab.key}
-                  className="flex flex-wrap content-center items-center gap-2 self-stretch px-2 py-1 data-[state=active]:text-black/40 data-[state=inactive]:text-black/20 dark:data-[state=active]:text-gray-500 dark:data-[state=inactive]:text-gray-500"
+                  className="flex cursor-pointer flex-wrap content-center items-center gap-2 self-stretch px-2 py-1 data-[state=active]:text-black/40 data-[state=inactive]:text-black/20 dark:data-[state=active]:text-gray-500 dark:data-[state=inactive]:text-gray-500"
                 >
                   {tab.title}
                 </TabsTrigger>
