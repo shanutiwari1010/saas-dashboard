@@ -1,21 +1,51 @@
 export interface Notification {
-  id: number;
+  id: string;
   title: string;
   message: string;
   timestamp: Date;
   priority: "urgent" | "high" | "medium" | "low";
   type:
+    | "bug_reported"
+    | "bug_fixed"
     | "bug_urgent"
     | "user_registered"
+    | "user_subscribed"
+    | "user_followed"
     | "system_maintenance"
-    | "user_subscribed";
+    | "system_update"
+    | "feature_release";
   isRead: boolean;
+  isArchived: boolean;
   bugId?: string;
   projectName?: string;
   userName?: string;
   userAvatar?: string;
+  userId?: string;
   actionUrl?: string;
   actionText?: string;
+  severity?: "low" | "medium" | "high" | "critical";
+}
+
+export type NotificationType = Notification["type"];
+export type NotificationPriority = Notification["priority"];
+
+export interface NotificationFilters {
+  types: NotificationType[];
+  priorities: NotificationPriority[];
+  isRead: boolean | null;
+  isArchived: boolean | null;
+  dateRange?: {
+    start: Date;
+    end: Date;
+  };
+}
+
+export interface NotificationStats {
+  total: number;
+  unread: number;
+  archived: number;
+  byType: Record<NotificationType, number>;
+  byPriority: Record<NotificationPriority, number>;
 }
 
 export interface Activity {
