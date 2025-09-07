@@ -235,8 +235,11 @@
   --dashboard-blue: #c6c7f8; /* Total sales */
   --dashboard-indigo: #c6c7f8; /* Total sales */
   --dashboard-purple: #c6c7f8; /* Total sales */
+  --dashboard-purple-light: #e5ecf6; /* Growth */
+  --dashboard-blue-light: #E3F5FF; /* Growth */
   --dashboard-cyan: #a8c5da; /* Dots, progress */
   --dashboard-light: #ffffff0d; /* All cards bg */
+
 
   /* Status colors - Dark Mode (same as light for consistency) */
   --status-inprogress: #8a8cd9;
@@ -322,6 +325,12 @@
   }
   .bg-dashboard-purple {
     background-color: var(--dashboard-purple);
+  }
+  .bg-dashboard-purple-light {
+    background-color: var(--dashboard-purple-light);
+  }
+  .bg-dashboard-blue-light {
+    background-color: var(--dashboard-blue-light);
   }
   .bg-dashboard-cyan {
     background-color: var(--dashboard-cyan);

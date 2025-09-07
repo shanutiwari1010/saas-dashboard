@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { notifications } from "../data/notifications";
 
@@ -24,6 +23,23 @@ const getTypeIcon = (type: string) => {
   }
 };
 
+const getIconBackgroundClass = (type: string) => {
+  switch (type) {
+    case "bug_urgent":
+    case "bug_reported":
+    case "bug_fixed":
+    case "system_maintenance":
+    case "system_update":
+    case "feature_release":
+      return "bg-dashboard-blue-light";
+    case "user_registered":
+    case "user_subscribed":
+    case "user_followed":
+    default:
+      return "bg-dashboard-purple-light";
+  }
+};
+
 const formatTimeAgo = (timestamp: Date) => {
   const now = new Date();
   const diff = now.getTime() - timestamp.getTime();
@@ -40,25 +56,29 @@ const formatTimeAgo = (timestamp: Date) => {
 export function Notifications() {
   return (
     <div className="flex h-full flex-col">
-      <div className="">
-        <h3 className="heading p-5 pb-2">Notifications</h3>
+      <div>
+        <h3 className="heading px-1 mb-2 m-5 py-2">Notifications</h3>
 
-        <ScrollArea>
           <div className="mx-5">
             {notifications.map((notification) => (
               <Card
                 key={notification.id}
                 className={cn(
-                  "rounded-none border-none shadow-none transition-all duration-200"
+                  "rounded-none border-none bg-transparent shadow-none transition-all duration-200"
                 )}
               >
                 <CardContent className="p-2">
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0">
+                    <div
+                      className={cn(
+                        "flex flex-shrink-0 items-center justify-center rounded-md p-1 text-black",
+                        getIconBackgroundClass(notification.type)
+                      )}
+                    >
                       {getTypeIcon(notification.type)}
                     </div>
                     <div className="max-w-48 min-w-0 flex-1 text-lg">
-                      <p className="truncate text-sm font-light">
+                      <p className="truncate text-sm font-light text-ellipsis overflow-hidden whitespace-nowrap">
                         {notification.title}
                       </p>
 
@@ -73,7 +93,6 @@ export function Notifications() {
               </Card>
             ))}
           </div>
-        </ScrollArea>
       </div>
     </div>
   );
