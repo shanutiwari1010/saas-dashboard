@@ -1,31 +1,33 @@
+import { Plus } from "phosphor-react";
+import { X, Search } from "lucide-react";
 import { useEffect, useState, useCallback, memo } from "react";
-import { X, Search, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
-import { Plus, ArrowsDownUp, FunnelSimple } from "phosphor-react";
+import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  PaginationContent,
-  PaginationEllipsis,
-} from "@/components/ui/pagination";
 
-import { orders } from "@/modules/dashboard/data/order";
 import type { Order } from "@/modules/dashboard/data/order";
 import type { DeleteTarget } from "@/modules/dashboard/types/table";
+
+import { orders as initialOrders } from "@/modules/dashboard/data/order";
 import { useOrdersStore } from "@/modules/dashboard/store/use-order-store";
 import { OrderForm } from "@/modules/dashboard/components/table/order-form";
 import { OrderTable } from "@/modules/dashboard/components/table/order-table";
+import { BulkActions } from "@/modules/dashboard/components/table/bulk-actions";
 import { DeleteDialog } from "@/modules/dashboard/components/table/delete-dialog";
+import { SortDropdown } from "@/modules/dashboard/components/table/sort-dropdown";
+import { FilterDropdown } from "@/modules/dashboard/components/table/filter-dropdown";
+import { TablePagination } from "@/modules/dashboard/components/table/table-pagination";
 
 export const OrderList = memo(() => {
   const {
+    orders,
     searchTerm,
     currentPage,
     selectedOrders,
+    sortConfig,
+    filterConfig,
     setSearchTerm,
     setCurrentPage,
     toggleOrderSelection,
@@ -34,10 +36,15 @@ export const OrderList = memo(() => {
     getPaginatedOrders,
     getTotalPages,
     getSelectedOrdersCount,
+    getFilteredCount,
     setOrders,
     addOrder,
     deleteOrder,
     deleteSelectedOrders,
+    bulkUpdateStatus,
+    setSortConfig,
+    setFilterConfig,
+    resetFilters,
   } = useOrdersStore();
 
   // Dialog states
@@ -47,12 +54,12 @@ export const OrderList = memo(() => {
 
   // UI interaction states
   const [hoveredOrderId, setHoveredOrderId] = useState<string | null>(null);
-  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Initialize orders from data file on component mount
   useEffect(() => {
     if (useOrdersStore.getState().orders.length === 0) {
-      setOrders(orders);
+      setOrders(initialOrders);
     }
   }, [setOrders]);
 
@@ -69,15 +76,13 @@ export const OrderList = memo(() => {
   );
 
   const handleSelectAll = useCallback(() => {
-    if (
-      selectedCount === paginatedOrders.length &&
-      paginatedOrders.length > 0
-    ) {
+    const filteredCount = getFilteredCount();
+    if (selectedCount === filteredCount && filteredCount > 0) {
       clearSelection();
     } else {
       selectAllOrders();
     }
-  }, [selectedCount, paginatedOrders.length, clearSelection, selectAllOrders]);
+  }, [selectedCount, getFilteredCount, clearSelection, selectAllOrders]);
 
   const handleDeleteOrder = useCallback((orderId: string) => {
     setDeleteTarget({ type: "single", orderId });
@@ -93,13 +98,28 @@ export const OrderList = memo(() => {
 
   const confirmDelete = useCallback(() => {
     if (deleteTarget?.type === "single" && deleteTarget.orderId) {
+      // Find the order to get its details for the toast
+      const orderToDelete = orders.find(
+        (order) => order.id === deleteTarget.orderId
+      );
       deleteOrder(deleteTarget.orderId);
+
+      toast.success("Order Deleted", {
+        description: `Order ${orderToDelete?.id || deleteTarget.orderId} has been successfully deleted.`,
+        duration: 4000,
+      });
     } else if (deleteTarget?.type === "multiple") {
+      const deletedCount = selectedCount;
       deleteSelectedOrders();
+
+      toast.success("Orders Deleted", {
+        description: `${deletedCount} order${deletedCount > 1 ? "s" : ""} have been successfully deleted.`,
+        duration: 4000,
+      });
     }
     setDeleteDialogOpen(false);
     setDeleteTarget(null);
-  }, [deleteTarget, deleteOrder, deleteSelectedOrders]);
+  }, [deleteTarget, deleteOrder, deleteSelectedOrders, orders, selectedCount]);
 
   const handleAddOrder = useCallback(() => {
     setAddDialogOpen(true);
@@ -108,6 +128,11 @@ export const OrderList = memo(() => {
   const handleOrderSubmit = useCallback(
     (newOrder: Order) => {
       addOrder(newOrder);
+
+      toast.success("Order Added", {
+        description: `Order ${newOrder.id} has been successfully added to the list.`,
+        duration: 4000,
+      });
     },
     [addOrder]
   );
@@ -115,6 +140,7 @@ export const OrderList = memo(() => {
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(e.target.value);
+      // Simulate loading delay for better UX
     },
     [setSearchTerm]
   );
@@ -138,6 +164,43 @@ export const OrderList = memo(() => {
     setCurrentPage(Math.min(currentPage + 1, totalPages));
   }, [currentPage, totalPages, setCurrentPage]);
 
+  const handleBulkUpdateStatus = useCallback(
+    (status: Order["status"]) => {
+      const updatedCount = selectedCount;
+      bulkUpdateStatus(status);
+
+      toast.success("Status Updated", {
+        description: `${updatedCount} order${updatedCount > 1 ? "s" : ""} status updated to "${status}".`,
+        duration: 4000,
+      });
+    },
+    [bulkUpdateStatus, selectedCount]
+  );
+
+  const handleSortChange = useCallback(
+    (config: typeof sortConfig) => {
+      setSortConfig(config);
+    },
+    [setSortConfig]
+  );
+
+  const handleFilterChange = useCallback(
+    (config: typeof filterConfig) => {
+      setFilterConfig(config);
+    },
+    [setFilterConfig]
+  );
+
+  const handleResetFilters = useCallback(() => {
+    setIsLoading(true);
+    resetFilters();
+    setTimeout(() => setIsLoading(false), 2000); // Intention: Skeleton loading time is 2 seconds
+  }, [resetFilters]);
+
+  const handleClearSelection = useCallback(() => {
+    clearSelection();
+  }, [clearSelection]);
+
   return (
     <>
       <Card className="w-full border-none bg-transparent shadow-none">
@@ -148,24 +211,23 @@ export const OrderList = memo(() => {
               <Button variant="ghost" size="icon" onClick={handleAddOrder}>
                 <Plus size={20} />
               </Button>
-              <Button variant="ghost" size="icon">
-                <FunnelSimple size={20} />
-              </Button>
-              <Button variant="ghost" size="icon">
-                <ArrowsDownUp size={20} />
-              </Button>
-
-              {selectedCount > 0 && (
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  className="text-white"
-                  onClick={handleDeleteSelected}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Delete Selected ({selectedCount})
-                </Button>
-              )}
+              <FilterDropdown
+                filterConfig={filterConfig}
+                onFilterChange={handleFilterChange}
+                onResetFilters={handleResetFilters}
+                filteredCount={getFilteredCount()}
+                totalCount={orders.length}
+              />
+              <SortDropdown
+                sortConfig={sortConfig}
+                onSortChange={handleSortChange}
+              />
+              <BulkActions
+                selectedCount={selectedCount}
+                onDeleteSelected={handleDeleteSelected}
+                onBulkUpdateStatus={handleBulkUpdateStatus}
+                onClearSelection={handleClearSelection}
+              />
             </div>
             <div className="relative px-1">
               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-black/20 dark:text-white/20" />
@@ -193,72 +255,22 @@ export const OrderList = memo(() => {
             orders={paginatedOrders}
             selectedOrders={selectedOrders}
             hoveredOrderId={hoveredOrderId}
-            openDropdownId={openDropdownId}
+            filteredOrdersCount={getFilteredCount()}
+            isLoading={isLoading}
             onSelectOrder={handleSelectOrder}
             onSelectAll={handleSelectAll}
             onDeleteOrder={handleDeleteOrder}
             onHoverOrder={setHoveredOrderId}
-            onDropdownChange={setOpenDropdownId}
           />
 
-          {totalPages > 1 && paginatedOrders.length > 0 && (
-            <div className="mt-2 w-full p-2">
-              <Pagination>
-                <PaginationContent className="flex w-full items-center justify-end">
-                  <PaginationItem>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : "cursor-pointer"
-                      }
-                      onClick={handlePreviousPage}
-                    >
-                      <ChevronLeft size={20} />
-                    </Button>
-                  </PaginationItem>
-
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    const pageNumber = i + 1;
-                    return (
-                      <PaginationItem key={pageNumber}>
-                        <PaginationLink
-                          onClick={() => handlePageChange(pageNumber)}
-                          isActive={currentPage === pageNumber}
-                          className="cursor-pointer"
-                        >
-                          {pageNumber}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  })}
-
-                  {totalPages > 5 && (
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                  )}
-
-                  <PaginationItem>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : "cursor-pointer"
-                      }
-                      onClick={handleNextPage}
-                    >
-                      <ChevronRight size={20} />
-                    </Button>
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          )}
+          <TablePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            onPrevious={handlePreviousPage}
+            onNext={handleNextPage}
+            isLoading={isLoading}
+          />
         </CardContent>
       </Card>
 
