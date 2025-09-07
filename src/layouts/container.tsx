@@ -1,9 +1,9 @@
-import OrderList from "@/modules/dashboard/components/order-list";
+import { OrderList } from "@/modules/dashboard/components/order-list";
 import { MetricsGrid } from "@/modules/dashboard/components/metrics-grid";
-import RevenueLineChart from "@/modules/dashboard/components/revenue-line";
-import RevenueByLocation from "@/modules/dashboard/components/revenue-by-location";
+import { RevenueLineChart } from "@/modules/dashboard/components/revenue-line";
 import { TotalSalesChart } from "@/modules/dashboard/components/total-sales-chart";
-import TopSellingProducts from "@/modules/dashboard/components/top-selling-products";
+import { TopSellingProducts } from "@/modules/dashboard/components/top-selling-products";
+import { RevenueByLocation } from "@/modules/dashboard/components/revenue-by-location";
 import { ProjectionsVsActualsChart } from "@/modules/dashboard/components/projections-vs-actuals";
 
 export function DashboardContainer() {
