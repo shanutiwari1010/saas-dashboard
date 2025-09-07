@@ -10,7 +10,14 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
-import type { DeleteDialogProps } from "@/modules/dashboard/types/table";
+import type { DeleteTarget } from "@/modules/dashboard/types/table";
+
+interface DeleteDialogProps {
+  open: boolean;
+  deleteTarget: DeleteTarget | null;
+  onConfirm: () => void;
+  onOpenChange: (open: boolean) => void;
+}
 
 export const DeleteDialog = memo<DeleteDialogProps>(
   ({ open, onOpenChange, deleteTarget, onConfirm }) => {
