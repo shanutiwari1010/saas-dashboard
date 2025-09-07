@@ -15,7 +15,7 @@ import type { SidebarData } from "@/types/sidebar";
 export const SIDEBAR_DATA: SidebarData = {
   user: {
     name: "ByeWind",
-    avatar: "/byewind.svg",
+    avatar: "/icons/byewind.svg",
   },
   dashboard: [
     {
