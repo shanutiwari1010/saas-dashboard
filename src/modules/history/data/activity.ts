@@ -1,6 +1,6 @@
-import type { IActivity } from "../interfaces/activity";
+import type { IActivity } from "@/modules/history/types/activity";
 
-export const activities: IActivity[] = [
+export const ACTIVITY_DATA: IActivity[] = [
   {
     id: 1,
     title: "You have a bug that needs to be fixed",

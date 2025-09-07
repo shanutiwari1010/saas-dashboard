@@ -6,8 +6,8 @@ import type {
   NotificationPriority,
   NotificationFilters,
   NotificationStats,
-} from "../interfaces/notification";
-import { DEFAULT_NOTIFICATIONS } from "../constants/notification-data";
+} from "@/modules/notification/types/notification";
+import { DEFAULT_NOTIFICATIONS } from "@/modules/notification/constants/notification-data";
 
 interface NotificationsState {
   // State

@@ -1,4 +1,4 @@
-import type { Notification } from "@/modules/notification/interfaces/notification";
+import type { Notification } from "@/modules/notification/types/notification";
 
 export const DEFAULT_NOTIFICATIONS: Notification[] = [
   {

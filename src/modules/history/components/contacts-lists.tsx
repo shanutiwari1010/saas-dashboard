@@ -1,13 +1,12 @@
+import { CONTACTS_DATA } from "@/modules/history/data/contact";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import { contacts } from "../data/contact";
 
 export function ContactsLists() {
   return (
     <div className="m-5 mt-0">
       <h3 className="heading mb-2 py-2">Contacts</h3>
       <div className="space-y-3">
-        {contacts.map((contact) => (
+        {CONTACTS_DATA.map((contact) => (
           <div key={contact.id} className="flex items-center gap-3">
             <div className="relative">
               <Avatar className="h-8 w-8">

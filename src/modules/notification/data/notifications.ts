@@ -1,6 +1,6 @@
-import type { Notification } from "@/modules/notification/interfaces/notification";
+import type { Notification } from "@/modules/notification/types/notification";
 
-export const notifications: Notification[] = [
+export const NOTIFICATIONS_DATA: Notification[] = [
   {
     id: "1",
     title: "You have a bug that needs to be fixed",

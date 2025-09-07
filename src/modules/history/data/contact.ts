@@ -1,6 +1,6 @@
-import type { Contact } from "../interfaces/contact";
+import type { Contact } from "@/modules/history/types/contact";
 
-export const contacts: Contact[] = [
+export const CONTACTS_DATA: Contact[] = [
   {
     id: 1,
     name: "Natali Craig",

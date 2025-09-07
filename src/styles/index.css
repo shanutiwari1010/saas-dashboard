@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
-
-@plugin "tailwindcss-animate";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -236,10 +235,9 @@
   --dashboard-indigo: #c6c7f8; /* Total sales */
   --dashboard-purple: #c6c7f8; /* Total sales */
   --dashboard-purple-light: #e5ecf6; /* Growth */
-  --dashboard-blue-light: #E3F5FF; /* Growth */
+  --dashboard-blue-light: #e3f5ff; /* Growth */
   --dashboard-cyan: #a8c5da; /* Dots, progress */
   --dashboard-light: #ffffff0d; /* All cards bg */
-
 
   /* Status colors - Dark Mode (same as light for consistency) */
   --status-inprogress: #8a8cd9;
