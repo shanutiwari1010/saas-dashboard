@@ -3,6 +3,8 @@ import { get, set, del } from "idb-keyval";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 import type { Order } from "@/modules/dashboard/data/order";
+import { parseDateString } from "@/modules/dashboard/utils/format";
+import type { SortConfig, FilterConfig } from "@/modules/dashboard/types/table";
 
 // Custom IndexedDB storage adapter for Zustand
 const idbStorage = {
@@ -18,7 +20,7 @@ const idbStorage = {
   },
 };
 
-interface OrdersState {
+export interface OrdersState {
   // Data
   orders: Order[];
 
@@ -27,6 +29,8 @@ interface OrdersState {
   currentPage: number;
   selectedOrders: string[];
   itemsPerPage: number;
+  sortConfig: SortConfig;
+  filterConfig: FilterConfig;
 
   // Actions
   setOrders: (orders: Order[]) => void;
@@ -34,6 +38,7 @@ interface OrdersState {
   updateOrder: (id: string, updates: Partial<Order>) => void;
   deleteOrder: (id: string) => void;
   deleteSelectedOrders: () => void;
+  bulkUpdateStatus: (status: Order["status"]) => void;
 
   // UI Actions
   setSearchTerm: (term: string) => void;
@@ -42,12 +47,16 @@ interface OrdersState {
   toggleOrderSelection: (orderId: string) => void;
   selectAllOrders: () => void;
   clearSelection: () => void;
+  setSortConfig: (config: SortConfig) => void;
+  setFilterConfig: (config: FilterConfig) => void;
+  resetFilters: () => void;
 
   // Computed values
   getFilteredOrders: () => Order[];
   getPaginatedOrders: () => Order[];
   getTotalPages: () => number;
   getSelectedOrdersCount: () => number;
+  getFilteredCount: () => number;
 }
 
 export const useOrdersStore = create<OrdersState>()(
@@ -59,6 +68,8 @@ export const useOrdersStore = create<OrdersState>()(
       currentPage: 1,
       selectedOrders: [],
       itemsPerPage: 10,
+      sortConfig: { field: "date", direction: "desc" },
+      filterConfig: { status: "all" },
 
       // Data actions
       setOrders: (orders) => set({ orders }),
@@ -91,6 +102,16 @@ export const useOrdersStore = create<OrdersState>()(
           selectedOrders: [],
         })),
 
+      bulkUpdateStatus: (status) =>
+        set((state) => ({
+          orders: state.orders.map((order) =>
+            state.selectedOrders.includes(order.id)
+              ? { ...order, status }
+              : order
+          ),
+          selectedOrders: [],
+        })),
+
       // UI actions
       setSearchTerm: (searchTerm) => set({ searchTerm, currentPage: 1 }),
 
@@ -114,19 +135,85 @@ export const useOrdersStore = create<OrdersState>()(
 
       clearSelection: () => set({ selectedOrders: [] }),
 
+      setSortConfig: (sortConfig) => set({ sortConfig, currentPage: 1 }),
+
+      setFilterConfig: (filterConfig) => set({ filterConfig, currentPage: 1 }),
+
+      resetFilters: () =>
+        set({
+          searchTerm: "",
+          filterConfig: { status: "all" },
+          sortConfig: { field: "date", direction: "desc" },
+          currentPage: 1,
+        }),
+
       // Computed values
       getFilteredOrders: () => {
-        const { orders, searchTerm } = get();
-        if (!searchTerm) return orders;
+        const { orders, searchTerm, filterConfig, sortConfig } = get();
 
-        return orders.filter(
-          (order) =>
-            order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.project.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.status.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        // Apply search filter
+        let filtered = orders;
+        if (searchTerm) {
+          filtered = orders.filter(
+            (order) =>
+              order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              order.user.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+              order.project.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              order.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              order.status.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+
+        // Apply status filter
+        if (filterConfig.status !== "all") {
+          filtered = filtered.filter(
+            (order) => order.status === filterConfig.status
+          );
+        }
+
+        // Apply sorting
+        filtered.sort((a, b) => {
+          let aValue: string | number;
+          let bValue: string | number;
+
+          switch (sortConfig.field) {
+            case "user.name":
+              aValue = a.user.name.toLowerCase();
+              bValue = b.user.name.toLowerCase();
+              break;
+            case "id":
+              aValue = a.id.toLowerCase();
+              bValue = b.id.toLowerCase();
+              break;
+            case "project":
+              aValue = a.project.toLowerCase();
+              bValue = b.project.toLowerCase();
+              break;
+            case "address":
+              aValue = a.address.toLowerCase();
+              bValue = b.address.toLowerCase();
+              break;
+            case "status":
+              aValue = a.status.toLowerCase();
+              bValue = b.status.toLowerCase();
+              break;
+            case "date":
+              // Parse date strings for comparison
+              aValue = parseDateString(a.date);
+              bValue = parseDateString(b.date);
+              break;
+            default:
+              return 0;
+          }
+
+          if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+          if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+          return 0;
+        });
+
+        return filtered;
       },
 
       getPaginatedOrders: () => {
@@ -145,6 +232,10 @@ export const useOrdersStore = create<OrdersState>()(
       getSelectedOrdersCount: () => {
         return get().selectedOrders.length;
       },
+
+      getFilteredCount: () => {
+        return get().getFilteredOrders().length;
+      },
     }),
     {
       name: "orders-store",
@@ -155,6 +246,8 @@ export const useOrdersStore = create<OrdersState>()(
         currentPage: state.currentPage,
         selectedOrders: state.selectedOrders,
         itemsPerPage: state.itemsPerPage,
+        sortConfig: state.sortConfig,
+        filterConfig: state.filterConfig,
       }),
     }
   )
