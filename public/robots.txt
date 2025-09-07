@@ -1,2 +1,9 @@
+# Robots.txt for Dashboard - SaaS Dashboard Platform
+# https://saas-dashboard-juspay.vercel.app
+
 User-agent: *
 Allow: /
+
+# Sitemap location
+Sitemap: https://saas-dashboard-juspay.vercel.app/sitemap.xml
+
