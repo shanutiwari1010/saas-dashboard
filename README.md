@@ -50,12 +50,14 @@ Before you dive in, make sure you have these installed:
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd saas-dashboard
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or if you prefer yarn
@@ -63,6 +65,7 @@ Before you dive in, make sure you have these installed:
    ```
 
 3. **Start the development server**
+
    ```bash
    npm run dev
    # or
@@ -70,7 +73,7 @@ Before you dive in, make sure you have these installed:
    ```
 
 4. **Open your browser**
-   
+
    Navigate to `http://localhost:5173` and you should see the dashboard come to life!
 
 ### Available Scripts
@@ -104,7 +107,9 @@ We use Zustand for global state management instead of Redux or Context API. It p
 export const useOrderStore = createBaseStore<OrderStore>({
   data: [],
   selectedItem: null,
-  addItem: (item) => { /* ... */ },
+  addItem: (item) => {
+    /* ... */
+  },
   // ...
 });
 ```
@@ -144,18 +149,21 @@ Creating a pixel-perfect implementation from Figma designs while adding meaningf
 ### Key Improvements Made
 
 **Enhanced User Experience**:
+
 - Added loading states for better perceived performance
 - Implemented optimistic updates for immediate feedback
 - Created empty states that guide users toward their first actions
 - Added subtle hover effects and focus states for better accessibility
 
 **Code Quality**:
+
 - Comprehensive TypeScript coverage for fewer runtime errors
 - Consistent naming conventions and file organization
 - Reusable utility functions that follow DRY principles
 - Error boundaries to gracefully handle unexpected issues
 
 **Performance Optimizations**:
+
 - Lazy loading for route-based code splitting
 - Memoization for expensive calculations
 - Efficient re-rendering with proper dependency arrays
@@ -196,11 +204,11 @@ module.exports = {
       colors: {
         primary: {
           // Your brand colors here
-        }
-      }
-    }
-  }
-}
+        },
+      },
+    },
+  },
+};
 ```
 
 ### Adding New Features

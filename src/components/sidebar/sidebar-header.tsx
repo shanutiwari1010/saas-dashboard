@@ -48,14 +48,14 @@ export const SidebarHeader = () => {
         <Breadcrumbs />
       </div>
       <div className="flex items-center gap-2">
-        <div className="relative px-1">
+        <div className="relative hidden px-1 md:block">
           <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
           <Input
             ref={searchInputRef}
             value={searchTerm}
             placeholder="Search..."
             onChange={handleSearchChange}
-            className="text-foreground placeholder:text-muted-foreground focus:bg-background focus:ring-ring w-52 bg-black/5 pr-20 pl-8 font-normal shadow-none focus:ring-1 dark:bg-white/5"
+            className="text-foreground placeholder:text-muted-foreground focus:bg-background focus:ring-ring h-7 w-52 max-w-40 bg-black/5 pr-20 pl-8 text-sm font-normal shadow-none focus:ring-1 dark:bg-white/5"
           />
           <div className="absolute top-1/2 right-3 flex -translate-y-1/2 transform items-center gap-1">
             {searchTerm ? (
