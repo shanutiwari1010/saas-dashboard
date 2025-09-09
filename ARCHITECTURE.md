@@ -8,15 +8,19 @@ This project follows a modular, feature-driven architecture with clear separatio
 
 ```
 src/
-├── components/           # Shared UI components
+├── assets/              # Assets
+├── components/          # Shared UI components
 │   ├── shared/          # Reusable shared components
 │   ├── ui/              # Base UI components (shadcn/ui)
 │   └── sidebar/         # Layout components
+│   └── sidebar/         # Layout components
+│   └── sidebar/         # Layout components
+│   └── sidebar/         # Layout components
+│   └── sidebar/         # Layout components
+│   └── sidebar/         # Layout components
+│   └── sidebar/         # Layout components
 ├── data/                # Data layer
-│   ├── shared/          # Shared data types, constants, utilities
-│   ├── dashboard/       # Dashboard-specific data
-│   ├── notifications/   # Notification data
-│   └── contacts/        # Contact data
+
 ├── hooks/               # Custom React hooks
 ├── lib/                 # Library and utilities (utils.ts)
 ├── modules/             # Feature modules
