@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 
@@ -9,7 +10,7 @@ interface NavFavoritesProps {
   isMobile?: boolean;
 }
 
-const NavFavorites: React.FunctionComponent<NavFavoritesProps> = () => {
+const NavFavorites: React.FunctionComponent<NavFavoritesProps> = memo(() => {
   return (
     <SidebarGroup className="px-4 py-0 pb-3 group-data-[collapsible=icon]:hidden">
       <SidebarMenu>
@@ -50,7 +51,7 @@ const NavFavorites: React.FunctionComponent<NavFavoritesProps> = () => {
       </SidebarMenu>
     </SidebarGroup>
   );
-};
+});
 
 export { NavFavorites };
 NavFavorites.displayName = "NavFavorites";
