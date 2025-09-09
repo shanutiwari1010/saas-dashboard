@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 interface PlaceholderPageProps {
   title: string;
@@ -11,11 +12,11 @@ export function PlaceholderPage({
 }: Readonly<PlaceholderPageProps>) {
   return (
     <div className="flex h-full items-center justify-center p-8">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-xl">
         <CardContent className="flex flex-col items-center justify-center p-8 text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gray-50 to-gray-200 shadow-sm dark:from-gray-600 dark:to-gray-800">
             <svg
-              className="h-8 w-8 text-gray-400"
+              className="h-10 w-10 text-gray-400 dark:text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -28,11 +29,25 @@ export function PlaceholderPage({
               />
             </svg>
           </div>
-          <h2 className="mb-2 text-xl font-semibold text-gray-900">{title}</h2>
-          {description && <p className="text-gray-600">{description}</p>}
-          <p className="mt-4 text-sm text-gray-500">
-            This page is coming soon. Content will be added here.
-          </p>
+          <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+            {title}
+          </h2>
+          {description && (
+            <p className="mx-auto text-base leading-relaxed text-gray-600 dark:text-gray-400">
+              {description}
+            </p>
+          )}
+
+          <Alert className="mt-8 flex flex-col gap-3 text-left">
+            <div className="flex items-center gap-3">
+              <span>🚧</span>
+              <AlertTitle>Under Construction</AlertTitle>
+            </div>
+            <AlertDescription className="mt-1">
+              We're building something amazing! This feature is currently in
+              development and will be available soon.
+            </AlertDescription>
+          </Alert>
         </CardContent>
       </Card>
     </div>
