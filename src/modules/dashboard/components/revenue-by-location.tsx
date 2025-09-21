@@ -8,6 +8,7 @@ export function RevenueByLocation() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
 
+  // TODO get data from zustand
   const locationsWithProgress = useMemo(() => {
     const maxRevenue = Math.max(
       ...REVENUE_BY_LOCATION_DATA.map((loc) => loc.revenue)
@@ -33,7 +34,7 @@ export function RevenueByLocation() {
       const style = document.createElement("style");
       style.textContent = `
         .leaflet-container {
-          background-color: var(--color-dashboard-light) !important;
+          background-color: var(--dashboard-light) !important;
         }
         .leaflet-tile-pane {
           filter: contrast(1.1) brightness(1.05);

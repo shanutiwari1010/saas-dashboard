@@ -17,6 +17,7 @@ import { ChartTooltip } from "@/modules/dashboard/components/chart-wrappers/tool
 const ProjectionsVsActualsChart: React.FunctionComponent = () => {
   const { theme } = useTheme();
 
+  // TODO: get data from zustand for projections
   const data = useMemo(() => {
     return PROJECTIONS_VS_ACTUALS_DATA.map((item) => ({
       ...item,
@@ -26,8 +27,8 @@ const ProjectionsVsActualsChart: React.FunctionComponent = () => {
 
   const colors = useMemo(() => {
     return {
-      actual: "var(--color-dashboard-bars)",
-      projected: "var(--color-dashboard-bars)",
+      actual: "var(--dashboard-cyan)",
+      projected: "var(--dashboard-cyan)",
       axis: theme === "dark" ? "var(--color-white)" : "var(--color-black)",
       grid: theme === "dark" ? "var(--color-white)" : "var(--color-black)",
     };
@@ -81,7 +82,13 @@ const ProjectionsVsActualsChart: React.FunctionComponent = () => {
           />
           <Tooltip
             cursor={{ fill: "transparent" }}
-            content={<ChartTooltip colors={colors} chartType="projections" />}
+            content={
+              <ChartTooltip
+                colors={colors}
+                chartType="projections"
+                showDollarSign={false}
+              />
+            }
           />
           <Bar
             stackId="a"

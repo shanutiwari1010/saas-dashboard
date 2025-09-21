@@ -82,7 +82,7 @@ const nameVariants = {
   },
 };
 
-export function ContactsLists() {
+export const ContactsLists = () => {
   // Memoize the data to prevent unnecessary re-renders
   const memoizedContacts = useMemo(() => CONTACTS_DATA, []);
 
@@ -154,4 +154,4 @@ export function ContactsLists() {
       </motion.div>
     </div>
   );
-}
+};

@@ -16,6 +16,7 @@ export function TopSellingProducts() {
             </tr>
           </thead>
           <tbody>
+            {/* //TODO: get data from zustand */ }
             {TOP_SELLING_PRODUCTS.map((product) => (
               <tr
                 key={product.name}

@@ -53,10 +53,10 @@ const RevenueLineChart = memo(() => {
 
   const colors = useMemo(() => {
     return {
-      previous: "var(--color-dashboard-dots)",
+      previous: "var(--dashboard-cyan)",
       current:
         theme === "dark"
-          ? "var(--color-dashboard-purple)"
+          ? "var(--dashboard-purple)"
           : "var(--color-black)",
       axis: theme === "dark" ? "var(--color-white)" : "var(--color-black)",
       grid: theme === "dark" ? "var(--color-white)" : "var(--color-black)",
@@ -84,6 +84,7 @@ const RevenueLineChart = memo(() => {
     return `$${value.toLocaleString()}`;
   }, []);
 
+  // TODO: add legend toggle in chart
   // Calculate real values for legend
   const legendValues = useMemo(() => {
     // Get the latest month's data (June)

@@ -31,13 +31,13 @@ const MetricCard: React.FunctionComponent<MetricCardProps> = ({ metric }) => {
   const getCardBackgroundColor = useCallback((metricId: string) => {
     switch (metricId) {
       case "customers":
-        return "bg-dashboard-customers hover:ring-[var(--color-dashboard-customers)]";
+        return "bg-dashboard-customers hover:ring-[var(--dashboard-blue-light)]";
       case "orders":
-        return "bg-dashboard-orders hover:ring-[var(--color-dashboard-orders)]";
+        return "bg-dashboard-orders hover:ring-[var(--dashboard-orders)]";
       case "revenue":
-        return "bg-dashboard-revenue hover:ring-[var(--color-dashboard-revenue)]";
+        return "bg-dashboard-revenue hover:ring-[var(--dashboard-light)]";
       case "growth":
-        return "bg-dashboard-growth hover:ring-[var(--color-dashboard-growth)]";
+        return "bg-dashboard-growth hover:ring-[var(--dashboard-purple-light)]";
       default:
         return "bg-gray-50 dark:bg-gray-950/20 border-gray-200 dark:border-gray-800";
     }
@@ -85,4 +85,5 @@ const MetricCard: React.FunctionComponent<MetricCardProps> = ({ metric }) => {
 };
 
 export { MetricCard };
+// for developer tools readability.
 MetricCard.displayName = "MetricCard";

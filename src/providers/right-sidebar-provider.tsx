@@ -3,6 +3,9 @@ import * as React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { RightSidebarContext } from "@/hooks/use-right-sidebar";
 
+const SIDEBAR_WIDTH = "17.5rem";
+const SIDEBAR_KEYBOARD_SHORTCUT = "r";
+
 interface RightSidebarProviderProps {
   readonly children: React.ReactNode;
   readonly defaultOpen?: boolean;
@@ -30,7 +33,7 @@ export function RightSidebarProvider({
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
-        event.key === "r" &&
+        event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
         (event.metaKey || event.ctrlKey) &&
         event.shiftKey
       ) {
@@ -59,7 +62,7 @@ export function RightSidebarProvider({
       <div
         style={
           {
-            "--right-sidebar-width": isOpen ? "17.5rem" : "0rem",
+            "--right-sidebar-width": isOpen ? SIDEBAR_WIDTH : "0rem",
             "--right-sidebar-open": isOpen ? "1" : "0",
           } as React.CSSProperties
         }
