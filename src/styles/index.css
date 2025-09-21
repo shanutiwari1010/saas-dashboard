@@ -48,35 +48,6 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Dashboard specific colors */
-  --color-dashboard-orders: var(--dashboard-orders);
-  --color-dashboard-customers: var(--dashboard-customers);
-  --color-dashboard-revenue: var(--dashboard-revenue);
-  --color-dashboard-growth: var(--dashboard-growth);
-  --color-dashboard-charts: var(--dashboard-charts);
-  --color-dashboard-bars: var(--dashboard-bars);
-  --color-dashboard-dots: var(--dashboard-dots);
-  --color-dashboard-progress: var(--dashboard-progress);
-  --color-dashboard-totals: var(--dashboard-totals);
-  --color-dashboard-brand: var(--dashboard-brand);
-  --color-dashboard-mint: var(--dashboard-mint);
-  --color-dashboard-blue: var(--dashboard-blue);
-  --color-dashboard-indigo: var(--dashboard-indigo);
-  --color-dashboard-purple: var(--dashboard-purple);
-  --color-dashboard-cyan: var(--dashboard-cyan);
-  --color-dashboard-light: var(--dashboard-light);
-
-  /* Status colors */
-  --color-status-inprogress: var(--status-inprogress);
-  --color-status-approved: var(--status-approved);
-  --color-status-rejected: var(--status-rejected);
-  --color-status-complete: var(--status-complete);
-  --color-status-pending: var(--status-pending);
-
-  /* UI colors */
-  --color-ui-white-40: var(--ui-white-40);
-  --color-ui-black-20: var(--ui-black-20);
-
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -131,12 +102,6 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
 
-  /* Chart specific colors - Light Mode */
-  --color-chart-actual: #a8c5da;
-  --color-chart-projected-gap: #a8c5da;
-  --color-chart-text: #1c1c1c;
-  --color-chart-grid: #e5e7eb;
-
   /* Sidebar colors - Light Mode */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
@@ -149,21 +114,14 @@
 
   /* Dashboard colors - Light Mode */
   --dashboard-orders: #d9d9d9; /* Orders */
-  --dashboard-customers: #e3f5ff; /* Customers, bug bg-icon, orderlist header-bg */
-  --dashboard-revenue: #f7f9fb; /* Revenue, bg of all charts */
-  --dashboard-growth: #e5ecf6; /* Growth, new user bg-icon */
-  --dashboard-charts: #f7f9fb; /* Chart backgrounds */
-  --dashboard-bars: #a8c5da; /* Bars */
-  --dashboard-dots: #a8c5da; /* Dots, curve, New York progress bar */
-  --dashboard-progress: #a8c5da; /* Progress bars */
-  --dashboard-totals: #95a4fc; /* Total sales */
+  --dashboard-light: #f7f9fb; /* Revenue, bg of all charts */
+  --dashboard-blue-light: #e3f5ff; /* Growth */
+  --dashboard-purple-light: #e5ecf6; /* Growth */
   --dashboard-brand: #1c1c1c; /* Total sales */
-  --dashboard-mint: #baedbd; /* Total sales */
   --dashboard-blue: #b1e3ff; /* Total sales */
   --dashboard-indigo: #95a4fc; /* Total sales */
   --dashboard-purple: #e5ecf6; /* Growth */
   --dashboard-cyan: #a8c5da; /* Bars, dots, progress */
-  --dashboard-light: #f7f9fb; /* Revenue, chart backgrounds */
 
   /* Status colors - Light Mode */
   --status-inprogress: #8a8cd9;
@@ -171,10 +129,6 @@
   --status-rejected: #f7f9fb;
   --status-complete: #4aa785;
   --status-pending: #59a8d4;
-
-  /* UI colors - Light Mode */
-  --ui-white-40: #ffffff66; /* Orderlist search bar */
-  --ui-black-20: #1c1c1c33; /* Search text */
 }
 
 .dark {
@@ -205,12 +159,6 @@
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
 
-  /* Chart specific colors - Dark Mode */
-  --color-chart-actual: #a8c5da;
-  --color-chart-projected-gap: #a8c5da;
-  --color-chart-text: #ffffff;
-  --color-chart-grid: #374151;
-
   /* Sidebar colors - Dark Mode */
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.985 0 0);
@@ -223,21 +171,14 @@
 
   /* Dashboard colors - Dark Mode */
   --dashboard-orders: #ffffff0d; /* Orders card, revenue, all cards bg */
-  --dashboard-revenue: #ffffff0d; /* All cards bg */
-  --dashboard-charts: #ffffff0d; /* Chart backgrounds */
-  --dashboard-bars: #a8c5da; /* Bars */
-  --dashboard-dots: #a8c5da; /* Dots previous week, curve */
-  --dashboard-progress: #a8c5da; /* Progress bars */
-  --dashboard-totals: #c6c7f8; /* Total sales */
+  --dashboard-light: #ffffff0d; /* All cards bg */
   --dashboard-brand: #c6c7f8; /* Dot current week, dot on map, sidebar active, checkbox bg, orderlist header-bg */
-  --dashboard-mint: #c6c7f8; /* Total sales */
   --dashboard-blue: #c6c7f8; /* Total sales */
   --dashboard-indigo: #c6c7f8; /* Total sales */
   --dashboard-purple: #c6c7f8; /* Total sales */
   --dashboard-purple-light: #e5ecf6; /* Growth */
   --dashboard-blue-light: #e3f5ff; /* Growth */
   --dashboard-cyan: #a8c5da; /* Dots, progress */
-  --dashboard-light: #ffffff0d; /* All cards bg */
 
   /* Status colors - Dark Mode (same as light for consistency) */
   --status-inprogress: #8a8cd9;
@@ -245,10 +186,6 @@
   --status-rejected: #ffffff0d;
   --status-complete: #4aa785;
   --status-pending: #59a8d4;
-
-  /* UI colors - Dark Mode */
-  --ui-white-40: #ffffff0d; /* Orderlist search bar */
-  --ui-black-20: #ffffff33; /* Search text */
 }
 
 @layer base {
@@ -286,40 +223,13 @@
     background-color: var(--dashboard-orders);
   }
   .bg-dashboard-customers {
-    background-color: var(--dashboard-customers);
-  }
-  .status-dot-pending {
-    background-color: var(--dashboard-revenue);
+    background-color: var(--dashboard-blue-light);
   }
   .bg-dashboard-growth {
-    background-color: var(--dashboard-growth);
-  }
-  .bg-dashboard-charts {
-    background-color: var(--dashboard-charts);
-  }
-  .bg-dashboard-bars {
-    background-color: var(--dashboard-bars);
-  }
-  .bg-dashboard-dots {
-    background-color: var(--dashboard-dots);
-  }
-  .bg-dashboard-progress {
-    background-color: var(--dashboard-progress);
-  }
-  .bg-dashboard-totals {
-    background-color: var(--dashboard-totals);
-  }
-  .bg-dashboard-brand {
-    background-color: var(--dashboard-brand);
-  }
-  .bg-dashboard-mint {
-    background-color: var(--dashboard-mint);
+    background-color: var(--dashboard-purple-light);
   }
   .bg-dashboard-blue {
     background-color: var(--dashboard-blue);
-  }
-  .bg-dashboard-indigo {
-    background-color: var(--dashboard-indigo);
   }
   .bg-dashboard-purple {
     background-color: var(--dashboard-purple);
@@ -335,106 +245,6 @@
   }
   .bg-dashboard-light {
     background-color: var(--dashboard-light);
-  }
-
-  /* Dashboard text utilities */
-  .text-dashboard-orders {
-    color: var(--dashboard-orders);
-  }
-  .text-dashboard-customers {
-    color: var(--dashboard-customers);
-  }
-  .text-dashboard-revenue {
-    color: var(--dashboard-revenue);
-  }
-  .text-dashboard-growth {
-    color: var(--dashboard-growth);
-  }
-  .text-dashboard-charts {
-    color: var(--dashboard-charts);
-  }
-  .text-dashboard-bars {
-    color: var(--dashboard-bars);
-  }
-  .text-dashboard-dots {
-    color: var(--dashboard-dots);
-  }
-  .text-dashboard-progress {
-    color: var(--dashboard-progress);
-  }
-  .text-dashboard-totals {
-    color: var(--dashboard-totals);
-  }
-  .text-dashboard-brand {
-    color: var(--dashboard-brand);
-  }
-  .text-dashboard-mint {
-    color: var(--dashboard-mint);
-  }
-  .text-dashboard-blue {
-    color: var(--dashboard-blue);
-  }
-  .text-dashboard-indigo {
-    color: var(--dashboard-indigo);
-  }
-  .text-dashboard-purple {
-    color: var(--dashboard-purple);
-  }
-  .text-dashboard-cyan {
-    color: var(--dashboard-cyan);
-  }
-  .text-dashboard-light {
-    color: var(--dashboard-light);
-  }
-
-  /* Dashboard border utilities */
-  .border-dashboard-orders {
-    border-color: var(--dashboard-orders);
-  }
-  .border-dashboard-customers {
-    border-color: var(--dashboard-customers);
-  }
-  .border-dashboard-revenue {
-    border-color: var(--dashboard-revenue);
-  }
-  .border-dashboard-growth {
-    border-color: var(--dashboard-growth);
-  }
-  .border-dashboard-charts {
-    border-color: var(--dashboard-charts);
-  }
-  .border-dashboard-bars {
-    border-color: var(--dashboard-bars);
-  }
-  .border-dashboard-dots {
-    border-color: var(--dashboard-dots);
-  }
-  .border-dashboard-progress {
-    border-color: var(--dashboard-progress);
-  }
-  .border-dashboard-totals {
-    border-color: var(--dashboard-totals);
-  }
-  .border-dashboard-brand {
-    border-color: var(--dashboard-brand);
-  }
-  .border-dashboard-mint {
-    border-color: var(--dashboard-mint);
-  }
-  .border-dashboard-blue {
-    border-color: var(--dashboard-blue);
-  }
-  .border-dashboard-indigo {
-    border-color: var(--dashboard-indigo);
-  }
-  .border-dashboard-purple {
-    border-color: var(--dashboard-purple);
-  }
-  .border-dashboard-cyan {
-    border-color: var(--dashboard-cyan);
-  }
-  .border-dashboard-light {
-    border-color: var(--dashboard-light);
   }
 
   /* Status utilities */
@@ -468,105 +278,6 @@
   }
   .text-status-pending {
     color: var(--status-pending);
-  }
-
-  .border-status-inprogress {
-    border-color: var(--status-inprogress);
-  }
-  .border-status-approved {
-    border-color: var(--status-approved);
-  }
-  .border-status-rejected {
-    border-color: var(--status-rejected);
-  }
-  .border-status-complete {
-    border-color: var(--status-complete);
-  }
-  .border-status-pending {
-    border-color: var(--status-pending);
-  }
-
-  /* UI utilities */
-  .bg-ui-white-40 {
-    background-color: var(--ui-white-40);
-  }
-  .bg-ui-black-20 {
-    background-color: var(--ui-black-20);
-  }
-  .text-ui-white-40 {
-    color: var(--ui-white-40);
-  }
-  .text-ui-black-20 {
-    color: var(--ui-black-20);
-  }
-  .border-ui-white-40 {
-    border-color: var(--ui-white-40);
-  }
-  .border-ui-black-20 {
-    border-color: var(--ui-black-20);
-  }
-
-  /* Chart utilities */
-  .fill-dashboard-bars {
-    fill: var(--dashboard-bars);
-  }
-  .fill-dashboard-dots {
-    fill: var(--dashboard-dots);
-  }
-  .fill-dashboard-progress {
-    fill: var(--dashboard-progress);
-  }
-  .fill-dashboard-totals {
-    fill: var(--dashboard-totals);
-  }
-  .fill-dashboard-brand {
-    fill: var(--dashboard-brand);
-  }
-  .fill-dashboard-mint {
-    fill: var(--dashboard-mint);
-  }
-  .fill-dashboard-blue {
-    fill: var(--dashboard-blue);
-  }
-  .fill-dashboard-indigo {
-    fill: var(--dashboard-indigo);
-  }
-  .fill-dashboard-purple {
-    fill: var(--dashboard-purple);
-  }
-  .fill-dashboard-cyan {
-    fill: var(--dashboard-cyan);
-  }
-
-  .stroke-dashboard-bars {
-    stroke: var(--dashboard-bars);
-  }
-  .stroke-dashboard-dots {
-    stroke: var(--dashboard-dots);
-  }
-  .stroke-dashboard-progress {
-    stroke: var(--dashboard-progress);
-  }
-  .stroke-dashboard-totals {
-    stroke: var(--dashboard-totals);
-  }
-  .stroke-dashboard-brand {
-    stroke: var(--dashboard-brand);
-  }
-  .stroke-dashboard-mint {
-    stroke: var(--dashboard-mint);
-  }
-  .stroke-dashboard-blue {
-    stroke: var(--dashboard-blue);
-  }
-  .stroke-dashboard-indigo {
-    stroke: var(--dashboard-indigo);
-  }
-  .stroke-dashboard-purple {
-    stroke: var(--dashboard-purple);
-  }
-  .stroke-dashboard-cyan {
-    stroke: var(--dashboard-cyan);
   }
 
   /* Animation utilities */
