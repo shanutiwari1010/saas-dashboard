@@ -157,7 +157,7 @@ export function Notifications() {
         </motion.h3>
 
         <motion.div
-          className="mx-5"
+          className="mx-5 "
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -178,9 +178,9 @@ export function Notifications() {
                     "cursor-pointer rounded-none border-none bg-transparent shadow-none transition-all duration-200"
                   )}
                 >
-                  <CardContent className="p-2">
+                  <CardContent className="p-0 py-2 ">
                     <motion.div
-                      className="flex items-start gap-3"
+                      className="flex items-start   gap-3"
                       variants={contentVariants}
                       initial="rest"
                       whileHover="hover"
@@ -201,7 +201,7 @@ export function Notifications() {
 
                       {/* Animated Content */}
                       <motion.div
-                        className="max-w-48 min-w-0 flex-1 text-lg"
+                        className="max-w-48 min-w-0 flex-1 text-lg "
                         variants={textVariants}
                         initial="rest"
                         whileHover="hover"
@@ -218,7 +218,7 @@ export function Notifications() {
                         </motion.p>
 
                         <motion.div
-                          className="flex items-center gap-2"
+                          className="flex items-center  gap-2"
                           initial={{ opacity: 0.8 }}
                           whileHover={{
                             opacity: 0.95,
